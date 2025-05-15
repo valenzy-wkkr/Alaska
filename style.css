@@ -445,7 +445,8 @@ input-with-icon i {
     color: var(--text-light);
 }
 
-.form-group input{
+.form-group input,
+.form-group textarea {
     width: 100%;
     padding: 0.8rem 1rem 0.8rem 2.5rem;
     border: 1px solid var(--border-color);
@@ -454,7 +455,8 @@ input-with-icon i {
     transition: var(--transition);
 }
 
-.form-group input:focus{
+.form-group input:focus,
+.form-group textarea:focus {
     border-color: var(--primary-color);
     outline: none;
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
