@@ -1,16 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alaska - Cuidado de Mascotas</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    
-</body>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Pagian de inicio -->
+    <header class="main-header">
+      <div class="container header-container">
+        <div class="logo">
+            <div class="logo-container">
+                <div class="logo-image-container">
+                    <img src="img/logo.jpg" alt="Logo Alaska" class="logo-img" />
+                </div>
+                <h1>ALASKA</h1>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <button class="mobile-menu-btn" aria-label="Abrir menú">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-list">
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#registro" class="btn-nav">Registrarse</a></li>
+            </ul>
+        </nav>
+      </div>
+    </header>    
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>¡Cuida bien de tus animales!</h2>
+                    <p>Esta aplicación está diseñada para ayudar a los dueños de mascotas a ser responsables y atender las necesidades de sus compañeros peludos.</p>
+                    <div class="hero-buttons">
+                        <a href="#registro" class="btn-primary">Regístrate Ahora</a>
+                        <a href="#nosotros" class="btn-secondary">Conoce Más</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-overlay"></div>
+        </section>
+
+        <!-- Quiénes Somos -->
+        <section id="nosotros" class="about-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>¿Quiénes somos?</h2>
+                    <p class="section-subtitle">Esta aplicación está diseñada para ayudar a los dueños de mascotas a ser responsables y atender las necesidades de sus compañeros peludos.</p>
+                </div>
+                
+                <h3 class="features-title">¡Te ayudamos con!</h3>
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-notes-medical"></i>
+                        </div>
+                        <h4>1. Registro de Datos Veterinarios</h4>
+                        <p>Los dueños pueden ingresar información sobre las visitas al veterinario, vacunas, desparasitaciones y tratamientos médicos. Esto ayuda a mantener un historial completo de la salud de la mascota.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <h4>2. Recordatorios Personalizados</h4>
+                        <p>La aplicación envía notificaciones para recordar a los dueños sobre las citas médicas, administración de medicamentos y otras tareas importantes.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-bone"></i>
+                        </div>
+                        <h4>3. Plan de Alimentación y Ejercicio</h4>
+                        <p>Los dueños pueden establecer un plan de alimentación adecuado según la especie, raza, tamaño y edad de la mascota. También se pueden registrar las rutinas de ejercicio y paseos.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-dog"></i>
+                        </div>
+                        <h4>4. Entrenamiento y Socialización</h4>
+                        <p>La aplicación proporciona consejos de entrenamiento y técnicas de socialización para ayudar a los dueños a criar mascotas bien educadas y felices.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h4>5. Localización y Seguridad</h4>
+                        <p>Incluye un rastreador GPS para ubicar a la mascota en caso de pérdida. Además, ofrece consejos sobre seguridad en el hogar y durante los paseos.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>6. Comunidad de Dueños de Mascotas</h4>
+                        <p>Los usuarios pueden conectarse con otros dueños, compartir experiencias y obtener consejos de cuidado.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h4>7. Información Legal y Responsabilidades</h4>
+                        <p>La aplicación educa a los dueños sobre sus obligaciones legales, como mantener a sus mascotas identificadas con microchips, evitar la reproducción incontrolada y recoger los desechos de sus mascotas en lugares públicos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+    </main>
+  </body>
 </html>
