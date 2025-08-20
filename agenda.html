@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alaska - Agenda Veterinaria</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/style-adicional.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="../img/alaska-ico.ico" type="image/x-icon">
+  </head>
+  <body>
+    <!-- Cabecera -->
+    <header class="cabecera-principal">
+      <div class="contenedor contenedor-cabecera">
+        <div class="logo">
+            <div class="contenedor-logo">
+                <div class="contenedor-imagen-logo">
+                    <img src="img/logo.jpg" alt="Logo Alaska" class="img-logo" />
+                </div>
+                <h1>ALASKA</h1>
+            </div>
+        </div>
+        <nav class="navegacion-principal">
+            <button class="boton-menu-movil" aria-label="Abrir menú">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="lista-navegacion">
+                <li><a href="../index.html#inicio">Inicio</a></li>
+                <li><a href="../index.html#nosotros">Nosotros</a></li>
+                <li><a href="../index.html#contacto">Contacto</a></li>
+                <li><a href="../index.html#blog">Blog</a></li>
+                <li><a href="agenda.html" class="boton-nav activo">Agenda</a></li>
+                <li><a href="../index.html#registro" class="boton-nav">Registrarse</a></li>
+            </ul>
+        </nav>
+      </div>
+    </header>    
+
+    <main>
+        <!-- Sección Hero de Agenda -->
+        <section class="hero hero-agenda">
+            <div class="contenedor">
+                <div class="contenido-hero">
+                    <h2>Agenda Veterinaria</h2>
+                    <p>Gestiona las citas con veterinarios y consulta el historial médico de tus mascotas</p>
+                </div>
+            </div>
+            <div class="superposicion-hero"></div>
+        </section>
+
+        <!-- Sección de Reserva de Citas -->
+        <section id="reserva-citas" class="seccion-reserva">
+            <div class="contenedor">
+                <div class="encabezado-seccion">
+                    <h2>Reservar Cita</h2>
+                    <p class="subtitulo-seccion">Programa una visita con nuestros veterinarios especialistas</p>
+                </div>
+                <div class="contenedor-reserva">
+                    <form id="formulario-reserva" class="formulario-reserva">
+                        <div class="grupo-formulario">
+                            <label for="mascota">Nombre de la mascota</label>
+                            <div class="entrada-con-icono">
+                                <i class="fas fa-paw"></i>
+                                <input type="text" id="mascota" name="mascota" placeholder="Nombre de tu mascota" required>
+                            </div>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="tipo-mascota">Tipo de mascota</label>
+                            <div class="entrada-con-icono">
+                            <i class="fas fa-dog"></i>
+                                <select id="tipo-mascota" name="tipo-mascota" required>
+                                    <option value="" disabled selected>Selecciona el tipo</option>
+                                    <option value="perro">Perro</option>
+                                    <option value="gato">Gato</option>
+                                    <option value="ave">Ave</option>
+                                    <option value="roedor">Roedor</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="veterinario">Veterinario</label>
+                            <div class="entrada-con-icono">
+                                <i class="fas fa-user-md"></i>
+                                <select id="veterinario" name="veterinario" required>
+                                    <option value="" disabled selected>Selecciona un veterinario</option>
+                                    <option value="dr-garcia">Dr. García - Medicina General</option>
+                                    <option value="dra-rodriguez">Dra. Rodríguez - Dermatología</option>
+                                    <option value="dr-lopez">Dr. López - Cirugía</option>
+                                    <option value="dra-martinez">Dra. Martínez - Cardiología</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="fecha">Fecha de la cita</label>
+                            <div class="entrada-con-icono">
+                                <i class="fas fa-calendar-alt"></i>
+                                <input type="date" id="fecha" name="fecha" required>
+                            </div>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="hora">Hora de la cita</label>
+                            <div class="entrada-con-icono">
+                                <i class="fas fa-clock"></i>
+                                <input type="time" id="hora" name="hora" required>
+                            </div>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="motivo">Motivo de la consulta</label>
+                            <div class="entrada-con-icono textarea-con-icono">
+                                <i class="fas fa-comment-medical"></i>
+                                <textarea id="motivo" name="motivo" placeholder="Describe brevemente el motivo de la consulta" required></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="boton-primario boton-completo">Reservar Cita</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Historial de Visitas -->
+        <section id="historial" class="seccion-historial">
+            <div class="contenedor">
+                <div class="encabezado-seccion">
+                    <h2>Historial de Visitas</h2>
+                    <p class="subtitulo-seccion">Consulta el registro médico de tus mascotas</p>
+                </div>
+                <div class="contenedor-historial">
+                    <div class="filtro-mascotas">
+                        <label for="filtro-mascota">Filtrar por mascota:</label>
+                        <select id="filtro-mascota" class="select-filtro">
+                            <option value="todas">Todas las mascotas</option>
+                            <option value="max">Max</option>
+                            <option value="luna">Luna</option>
+                            <option value="rocky">Rocky</option>
+                        </select>
+                    </div>
+                    <div class="tabla-historial">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Mascota</th>
+                                    <th>Veterinario</th>
+                                    <th>Diagnóstico</th>
+                                    <th>Tratamiento</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="datos-historial">
+                                <!-- Ejemplo de datos (se cargarían dinámicamente) -->
+                                <tr>
+                                    <td>15/05/2023</td>
+                                    <td>Max</td>
+                                    <td>Dr. García</td>
+                                    <td>Infección cutánea</td>
+                                    <td>Antibióticos y baños medicados</td>
+                                    <td><button class="boton-detalles"><i class="fas fa-eye"></i> Ver detalles</button></td>
+                                </tr>
+                                <tr>
+                                    <td>22/06/2023</td>
+                                    <td>Luna</td>
+                                    <td>Dra. Rodríguez</td>
+                                    <td>Vacunación anual</td>
+                                    <td>Vacunas múltiples</td>
+                                    <td><button class="boton-detalles"><i class="fas fa-eye"></i> Ver detalles</button></td>
+                                </tr>
+                                <tr>
+                                    <td>10/07/2023</td>
+                                    <td>Rocky</td>
+                                    <td>Dr. López</td>
+                                    <td>Fractura en pata delantera</td>
+                                    <td>Cirugía y rehabilitación</td>
+                                    <td><button class="boton-detalles"><i class="fas fa-eye"></i> Ver detalles</button></td>
+                                </tr>
+                                <tr>
+                                    <td>05/08/2023</td>
+                                    <td>Max</td>
+                                    <td>Dra. Martínez</td>
+                                    <td>Control cardíaco</td>
+                                    <td>Medicación continua</td>
+                                    <td><button class="boton-detalles"><i class="fas fa-eye"></i> Ver detalles</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="pie-pagina">
+        <div class="contenedor">
+            <div class="contenido-footer">
+                <div class="columna-footer info-contacto">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Ciudad</p>
+                    <p><i class="fas fa-phone"></i> +123 456 7890</p>
+                    <p><i class="fas fa-envelope"></i> info@alaska-mascotas.com</p>
+                </div>
+                <div class="columna-footer enlaces-rapidos">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="../index.html#inicio">Inicio</a></li>
+                        <li><a href="../index.html#nosotros">Nosotros</a></li>
+                        <li><a href="../index.html#registro">Registro</a></li>
+                        <li><a href="agenda.html">Agenda</a></li>
+                    </ul>
+                </div>
+                <div class="columna-footer redes-sociales">
+                    <h3>Síguenos</h3>
+                    <div class="iconos-sociales">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../views/MenuView.js"></script>
+    <script src="../views/ButtonView.js"></script>
+    <script src="../views/FormView.js"></script>
+    <script src="../js/agenda.js"></script>
+  </body>
+</html>

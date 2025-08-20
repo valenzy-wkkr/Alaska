@@ -7,18 +7,22 @@
 const { DatabaseConnection } = require('./database/DatabaseConnection');
 const UserDAO = require('./database/UserDAO');
 const PetDAO = require('./database/PetDAO');
+const AppointmentDAO = require('./database/AppointmentDAO');
 const UserController = require('./controllers/UserController');
 const PetController = require('./controllers/PetController');
+const AppointmentController = require('./controllers/AppointmentController');
 const Validator = require('./utils/Validator');
 const { ErrorHandler } = require('./utils/ErrorHandler');
 const Logger = require('./utils/Logger');
 const MenuView = require('./views/MenuView');
 const ButtonView = require('./views/ButtonView');
 const FormView = require('./views/FormView');
+const AppointmentView = require('./views/AppointmentView');
 
 // Clases de modelo
 const User = require('./models/User');
 const Pet = require('./models/Pet');
+const Appointment = require('./models/Appointment');
 
 /**
  * Clase principal de la aplicación
@@ -32,8 +36,10 @@ class App {
     this.database = null;
     this.userDAO = null;
     this.petDAO = null;
+    this.appointmentDAO = null;
     this.userController = null;
     this.petController = null;
+    this.appointmentController = null;
     this.validator = null;
     this.errorHandler = null;
     this.logger = null;
@@ -93,6 +99,7 @@ class App {
       // Inicializar DAOs
       this.userDAO = new UserDAO(this.database);
       this.petDAO = new PetDAO(this.database);
+      this.appointmentDAO = new AppointmentDAO(this.database);
       
       this.logger.info('Conexión a base de datos establecida');
     } catch (error) {
@@ -113,6 +120,13 @@ class App {
       );
       
       this.petController = new PetController(
+        this.petDAO,
+        this.validator,
+        this.errorHandler
+      );
+      
+      this.appointmentController = new AppointmentController(
+        this.appointmentDAO,
         this.petDAO,
         this.validator,
         this.errorHandler
@@ -266,6 +280,58 @@ class App {
     }
     
     return await this.petController.getPetById(id);
+  }
+
+  /**
+   * Crea una nueva cita
+   * @param {object} appointmentData - Los datos de la cita
+   * @returns {Promise<object>} - El resultado de la operación
+   */
+  async createAppointment(appointmentData) {
+    if (!this.isInitialized) {
+      throw new Error('La aplicación no está inicializada');
+    }
+    
+    return await this.appointmentController.createAppointment(appointmentData);
+  }
+
+  /**
+   * Obtiene una cita por ID
+   * @param {number} id - El ID de la cita
+   * @returns {Promise<object>} - El resultado de la operación
+   */
+  async getAppointmentById(id) {
+    if (!this.isInitialized) {
+      throw new Error('La aplicación no está inicializada');
+    }
+    
+    return await this.appointmentController.getAppointmentById(id);
+  }
+
+  /**
+   * Obtiene las citas de una mascota
+   * @param {number} petId - El ID de la mascota
+   * @returns {Promise<object>} - El resultado de la operación
+   */
+  async getAppointmentsByPetId(petId) {
+    if (!this.isInitialized) {
+      throw new Error('La aplicación no está inicializada');
+    }
+    
+    return await this.appointmentController.getAppointmentsByPetId(petId);
+  }
+
+  /**
+   * Obtiene las citas de un usuario
+   * @param {number} userId - El ID del usuario
+   * @returns {Promise<object>} - El resultado de la operación
+   */
+  async getAppointmentsByUserId(userId) {
+    if (!this.isInitialized) {
+      throw new Error('La aplicación no está inicializada');
+    }
+    
+    return await this.appointmentController.getAppointmentsByUserId(userId);
   }
 
   /**
