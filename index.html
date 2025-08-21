@@ -39,7 +39,7 @@
                 <li><a href="contacto.html">Contacto</a></li>
                 <li><a href="citas.html">Citas</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="dashboard.php">Dashboard</a></li>
                 <li><a href="#registro" class="boton-nav">Registrarse</a></li>
             </ul>
         </nav>
@@ -142,7 +142,7 @@
 
 
 
-                    <form class="formulario-registro" action="php/registro.php" method="POST">
+                    <form id="registrationForm" class="formulario-registro" action="php/registro.php" method="POST" onsubmit="return handleRegistration(event)">
                         <div class="grupo-formulario">
                             <label for="nombre">Nombre</label>
                             <div class="entrada-con-icono">
@@ -182,7 +182,7 @@
                             <input type="checkbox" id="terminos" name="terminos" required>
                             <label for="terminos">Acepto los términos y condiciones</label>
                         </div>
-                        <a href="dashboard.html"><input type="submit" value="Registrarse" class="boton-primario boton-completo"></a>
+                        <input type="submit" value="Registrarse" class="boton-primario boton-completo">
                         <p class="enlace-login">¿Ya tienes una cuenta? <a href="#">Inicia sesión</a></p>
                     </form>
 
@@ -296,5 +296,37 @@
     <script src="views/FormView.js"></script>
     <script src="js/app.js"></script>
     <script src="js/demo-setup.js"></script>
+    <script>
+        function handleRegistration(event) {
+            try {
+                // Validar el formulario
+                const form = event.target;
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                    return false;
+                }
+                
+                // Obtener datos del formulario
+                const formData = new FormData(form);
+                const userData = {
+                    name: formData.get('nombre'),
+                    username: formData.get('apodo'),
+                    email: formData.get('correo'),
+                    address: formData.get('direccion')
+                };
+                
+                // Guardar en localStorage
+                localStorage.setItem('currentUser', JSON.stringify(userData));
+                
+                // Continuar con el envío del formulario
+                return true;
+            } catch (error) {
+                console.error('Error en handleRegistration:', error);
+                return false;
+            }
+        }
+    </script>
   </body>
 </html>

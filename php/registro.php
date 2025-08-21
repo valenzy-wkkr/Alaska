@@ -1,8 +1,14 @@
 <?php
 session_start();
+// Habilitar visualización de errores
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include('conexion.php'); // SIEMPRE incluir la conexión, no solo si hay sesión
 
+// Depuración: Verificar si se recibió el método POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    error_log('Método POST recibido');
     // Validar que todos los campos existen antes de usarlos
     if (
         isset($_POST['nombre'], $_POST['apodo'], $_POST['correo'], 
@@ -18,7 +24,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      VALUES ('$nombre', '$apodo', '$correo', '$direccion', '$clave')";
 
         if (mysqli_query($conexion, $consulta)) {
-            header("Location: ../dashboard.html"); 
+            // Configurar la sesión del usuario
+            $_SESSION['usuario'] = $correo;
+            $_SESSION['nombre'] = $nombre;
+            
+            error_log('Registro exitoso, redirigiendo a dashboard.php');
+            // Forzar la salida del buffer y enviar encabezados
+            if (ob_get_level()) ob_end_clean();
+            header("Location: ../dashboard.php");
             exit();
         } else {
             echo "❌ Error al registrar al usuario: " . mysqli_error($conexion);

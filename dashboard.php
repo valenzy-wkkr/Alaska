@@ -1,3 +1,22 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['usuario'])) {
+    header('Location: index.html');
+    exit();
+}
+
+$nombre = $_SESSION['nombre'];
+
+
+
+
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -52,7 +71,7 @@
             <div class="dashboard-header">
                 <div class="dashboard-welcome">
                     <h1>¡Bienvenido de vuelta!</h1>
-                    <p id="userName">Usuario</p>
+                    <p id="userName"><?php echo $nombre; ?></p>
                 </div>
                 <div class="dashboard-stats">
                     <div class="stat-card">
