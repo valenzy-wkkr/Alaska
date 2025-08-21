@@ -109,17 +109,15 @@ class Blog {
         gridContainer.innerHTML = articlesToShow.map(article => this.createArticleHTML(article)).join('');
     }
 
-    /**
-     * Crea el HTML para un artículo
-     */
-    createArticleHTML(article) {
+     createArticleHTML(article) {
         const date = new Date(article.date);
         const formattedDate = this.formatDate(date);
         
+
         return `
             <article class="articulo" data-id="${article.id}" data-category="${article.category.toLowerCase()}">
                 <div class="imagen-articulo">
-                    <img src="${article.image || 'img/blog-placeholder.jpg'}" alt="${article.title}">
+                    <img src="${img.image}" alt="${article.title}">
                 </div>
                 <div class="contenido-articulo">
                     <div class="meta-articulo">
@@ -340,6 +338,7 @@ class Blog {
             });
         }
     }
+
 
     /**
      * Configura los filtros
