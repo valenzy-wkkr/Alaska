@@ -8,56 +8,165 @@ if(isset($_SESSION['usuario'])) {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Alaska</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .btn-login {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .btn-login:hover {
-            background-color: #45a049;
-        }
-        .error-message {
-            color: #ff0000;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión - Alaska</title>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="shortcut icon" href="img/alaska-ico.ico" type="image/x-icon">
+  <style>
+    /* Estilos adicionales específicos para login */
+    body {
+      background: linear-gradient(135deg, var(--color-primario), var(--color-primario-oscuro));
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 2.5rem;
+      background-color: #fff;
+      border-radius: var(--radio-borde-grande);
+      box-shadow: var(--sombra-caja);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      color: var(--color-primario);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--color-texto);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-borde);
+      font-size: 1rem;
+      transition: var(--transicion);
+    }
+
+    .form-group input:focus {
+      border-color: var(--color-primario);
+      box-shadow: 0 0 0 3px rgba(91, 140, 90, 0.2);
+      outline: none;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--color-secundario);
+      color: var(--color-texto-blanco);
+      border: none;
+      border-radius: var(--radio-borde);
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: var(--transicion);
+    }
+
+    .btn-login:hover {
+      background-color: var(--color-acento);
+      transform: translateY(-2px);
+      box-shadow: var(--sombra-caja-hover);
+    }
+
+    .error-message {
+      background: rgba(255, 112, 67, 0.1);
+      border: 1px solid var(--color-secundario);
+      border-radius: var(--radio-borde);
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: var(--color-secundario);
+      font-weight: 500;
+    }
+
+    .login-container a {
+      display: inline-block;
+      margin-top: 1rem;
+      text-align: center;
+      width: 100%;
+      color: var(--color-primario);
+      font-weight: 500;
+      transition: var(--transicion);
+    }
+
+    .login-container a:hover {
+      color: var(--color-secundario);
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
+  <!-- Header -->
+  <header class="cabecera-principal">
+    <div class="contenedor contenedor-cabecera">
+      <div class="logo">
+          <div class="contenedor-logo">
+              <div class="contenedor-imagen-logo">
+                  <img src="img/logo.jpg" alt="Logo Alaska" class="img-logo" />
+              </div>
+              <h1>ALASKA</h1>
+          </div>
+      </div>
+      <nav class="navegacion-principal">
+          <button class="boton-menu-movil" aria-label="Abrir menú">
+              <i class="fas fa-bars"></i>
+          </button>
+          <ul class="lista-navegacion">
+              <li><a href="index.html#inicio">Inicio</a></li>
+              <li><a href="index.html#nosotros">Nosotros</a></li>
+              <li><a href="contacto.html">Contacto</a></li>
+              <li><a href="citas.html">Citas</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="index.html#registro" class="boton-nav">Registrarse</a></li>
+              <li><a href="dashboard.php" class="inicial-circulo">U</a></li>
+          </ul>
+      </nav>
+    </div>
+  </header>    
+
+  <!-- Main -->
+  <main>
     <div class="login-container">
-        <h2 style="text-align: center;">Iniciar Sesión</h2>
+        <h2>Iniciar Sesión</h2>
         <?php if(isset($_GET['error'])): ?>
             <div class="error-message">
                 <?php 
@@ -71,8 +180,8 @@ if(isset($_SESSION['usuario'])) {
         <?php endif; ?>
         <form action="php/validar_login.php" method="POST">
             <div class="form-group">
-                <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" required>
+                <label for="correo">Correo electrónico:</label>
+                <input type="email" id="correo" name="correo" required>
             </div>
             <div class="form-group">
                 <label for="contrasena">Contraseña:</label>
@@ -80,9 +189,49 @@ if(isset($_SESSION['usuario'])) {
             </div>
             <button type="submit" class="btn-login">Iniciar Sesión</button>
         </form>
-        <div style="text-align: center; margin-top: 15px;">
-            <a href="#" style="color: #4CAF50;">¿Olvidaste tu contraseña?</a>
-        </div>
+        <a href="#">¿Olvidaste tu contraseña?</a>
     </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="pie-pagina">
+      <div class="contenedor">
+          <div class="contenido-footer">
+              <div class="columna-footer info-contacto">
+                  <h3>Contacto</h3>
+                  <p><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Ciudad</p>
+                  <p><i class="fas fa-phone"></i> +123 456 7890</p>
+                  <p><i class="fas fa-envelope"></i> info@alaska-mascotas.com</p>
+              </div>
+              <div class="columna-footer enlaces-rapidos">
+                  <h3>Enlaces Rápidos</h3>
+                  <ul>
+                      <li><a href="index.html#inicio">Inicio</a></li>
+                      <li><a href="index.html#nosotros">Nosotros</a></li>
+                      <li><a href="index.html#registro">Registro</a></li>
+                      <li><a href="blog.html">Blog</a></li>
+                  </ul>
+              </div>
+              <div class="columna-footer redes-sociales">
+                  <h3>Síguenos</h3>
+                  <div class="iconos-sociales">
+                      <a href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#"><i class="fab fa-twitter"></i></a>
+                      <a href="#"><i class="fab fa-instagram"></i></a>
+                      <a href="#"><i class="fab fa-youtube"></i></a>
+                  </div>
+              </div>
+          </div>
+          <div class="copyright">
+              <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
+          </div>
+      </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="views/MenuView.js"></script>
+  <script src="views/ButtonView.js"></script>
+  <script src="views/FormView.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
