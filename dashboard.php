@@ -55,7 +55,7 @@ $nombre = $_SESSION['nombre'];
             </button>
             <ul class="lista-navegacion">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="dashboard.html" class="activo">Dashboard</a></li>
+                <!-- <li><a href="dashboard.html" class="activo">Dashboard</a></li> -->
                 <li><a href="citas.html">Citas</a></li>
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
