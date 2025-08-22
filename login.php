@@ -240,8 +240,8 @@ if(isset($_SESSION['usuario'])) {
                 <input type="email" id="correo" name="correo" required>
             </div>
             <div class="form-group">
-                <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" name="contrasena" required>
+                <label for="clave">Contraseña:</label>
+                <input type="password" id="clave" name="clave" required>
             </div>
             <button type="submit" class="btn-login">Iniciar Sesión</button>
         </form>
