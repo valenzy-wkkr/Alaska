@@ -1,0 +1,52 @@
+.inicial-circulo {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 35px !important;
+    height: 35px !important;
+    min-width: 35px !important;
+    min-height: 35px !important;
+    border-radius: 50% !important;
+    background-color: var(--color-acento) !important;
+    color: white !important;
+    padding: 0 !important;
+    margin: 0 8px !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+    box-shadow: 0 2px 8px rgba(255, 112, 67, 0.4) !important;
+    text-decoration: none !important;
+    line-height: 1 !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    overflow: hidden !important;
+    }
+
+    .inicial-circulo:hover {
+    background-color: rgba(255, 112, 67, 0.9) !important;
+    color: white !important;
+    transform: translateY(-2px) scale(1.08) !important;
+    box-shadow: 0 4px 15px rgba(255, 112, 67, 0.6) !important;
+    border-color: rgba(255, 255, 255, 1) !important;
+    }
+
+    .inicial-circulo::before {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 20%;
+    height: 20%;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    opacity: 0;
+    }
+
+    .inicial-circulo:hover::before {
+    width: 70%;
+    height: 70%;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.2);
+    }
