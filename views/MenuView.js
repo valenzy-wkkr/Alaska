@@ -14,6 +14,11 @@ class MenuView {
     
     // Estado del menú
     this.isOpen = false;
+    
+    // Bind de métodos para mantener el contexto
+    this.toggleMenuHandler = this.toggleMenu.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleResize = this.handleResize.bind(this);
   }
 
   /**
@@ -44,10 +49,7 @@ class MenuView {
    */
   initEventListeners() {
     // Evento para el botón de menú
-    this.menuButton.addEventListener('click', (event) => {
-      event.preventDefault();
-      this.toggleMenu();
-    });
+    this.menuButton.addEventListener('click', this.toggleMenuHandler);
     
     // Evento para cerrar el menú al hacer clic en un enlace
     this.menuItems.forEach(item => {
@@ -59,24 +61,33 @@ class MenuView {
     });
     
     // Evento para cerrar el menú al hacer clic fuera de él
-    document.addEventListener('click', (event) => {
-      if (this.isOpen && 
-          !this.navigationMenu.contains(event.target) && 
-          !this.menuButton.contains(event.target)) {
-        this.closeMenu();
-      }
-    });
+    document.addEventListener('click', this.handleClickOutside);
     
     // Evento para manejar el redimensionamiento de la ventana
-    window.addEventListener('resize', () => {
-      this.handleResize();
-    });
+    window.addEventListener('resize', this.handleResize);
+  }
+  
+  /**
+   * Maneja los clics fuera del menú para cerrarlo
+   * @param {Event} event - El evento de clic
+   */
+  handleClickOutside(event) {
+    if (this.isOpen && 
+        !this.navigationMenu.contains(event.target) && 
+        !this.menuButton.contains(event.target)) {
+      this.closeMenu();
+    }
   }
 
   /**
    * Alterna la visibilidad del menú en dispositivos móviles
+   * @param {Event} event - El evento de clic
    */
-  toggleMenu() {
+  toggleMenu(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    
     if (this.isOpen) {
       this.closeMenu();
     } else {
@@ -148,14 +159,14 @@ class MenuView {
   destroy() {
     // Remover event listeners
     if (this.menuButton) {
-      this.menuButton.removeEventListener('click', this.toggleMenu);
+      this.menuButton.removeEventListener('click', this.toggleMenuHandler);
     }
     
-    if (this.menuItems) {
-      this.menuItems.forEach(item => {
-        item.removeEventListener('click', this.closeMenu);
-      });
-    }
+    // Remover event listener de documento
+    document.removeEventListener('click', this.handleClickOutside);
+    
+    // Remover event listener de ventana
+    window.removeEventListener('resize', this.handleResize);
     
     // Remover clase activa si está presente
     if (this.navigationMenu) {
@@ -163,6 +174,12 @@ class MenuView {
     }
   }
 }
+
+// Inicializa la clase y la funcionalidad del menú cuando el documento esté listo
+document.addEventListener('DOMContentLoaded', () => {
+  const menu = new MenuView();
+  menu.init();
+});
 
 // Exportar la clase para poder usarla en otros archivos
 if (typeof module !== 'undefined' && module.exports) {
