@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "title": "Cómo cuidar la salud dental de tu mascota",
+    "excerpt": "La salud dental es fundamental para el bienestar general de tu mascota. Descubre los mejores consejos para mantener sus dientes limpios y sanos.",
+    "content": "La salud dental es uno de los aspectos más importantes del cuidado de tu mascota que a menudo se pasa por alto. Los problemas dentales pueden causar dolor, infecciones y afectar la salud general de tu compañero peludo.\n\nEn este artículo te compartimos los mejores consejos para mantener la salud dental de tu mascota:\n\n1. Cepillado regular\n2. Juguetes dentales\n3. Dieta adecuada\n4. Revisiones veterinarias\n5. Detección temprana de problemas",
+    "date": "2024-03-01",
+    "category": "Salud",
+    "author": "Dr. María González",
+    "image": "img/dental-care.jpg",
+    "tags": ["salud", "dental", "cuidado", "mascotas"]
+  },
+  {
+    "id": 2,
+    "title": "Alimentación adecuada para perros senior",
+    "excerpt": "A medida que tu perro envejece, sus necesidades nutricionales cambian. Te contamos cómo adaptar su dieta para mantenerlo saludable.",
+    "content": "Los perros senior tienen necesidades nutricionales específicas que deben ser atendidas para mantener su calidad de vida. A partir de los 7 años, los perros comienzan a experimentar cambios en su metabolismo y requerimientos nutricionales.\n\nAspectos importantes a considerar:\n\n- Proteínas de alta calidad\n- Ácidos grasos omega-3\n- Antioxidantes\n- Fibra dietética\n- Vitaminas y minerales específicos",
+    "date": "2024-02-28",
+    "category": "Nutrición",
+    "author": "Lic. Carlos Rodríguez",
+    "image": "img/senior-dog.jpg",
+    "tags": ["nutrición", "perros", "senior", "alimentación"]
+  },
+  {
+    "id": 3,
+    "title": "Ejercicios mentales para gatos",
+    "excerpt": "Los gatos también necesitan estimulación mental. Descubre juegos y actividades que mantendrán a tu felino activo y feliz.",
+    "content": "Los gatos son animales inteligentes que necesitan estimulación mental para mantenerse felices y saludables. El aburrimiento puede llevar a problemas de comportamiento y obesidad.\n\nActividades recomendadas:\n\n- Juegos de búsqueda\n- Puzzles de comida\n- Juguetes interactivos\n- Entrenamiento con clicker\n- Tiempo de juego diario",
+    "date": "2024-02-25",
+    "category": "Bienestar",
+    "author": "Dra. Ana Martínez",
+    "image": "img/cat-play.jpg",
+    "tags": ["gatos", "bienestar", "ejercicios", "estimulación"]
+  },
+  {
+    "id": 4,
+    "title": "Primeros auxilios para mascotas",
+    "excerpt": "Conoce las técnicas básicas de primeros auxilios que pueden salvar la vida de tu mascota en una emergencia.",
+    "content": "Saber qué hacer en caso de emergencia puede marcar la diferencia entre la vida y la muerte de tu mascota. Es fundamental conocer las técnicas básicas de primeros auxilios.\n\nSituaciones comunes:\n\n- Heridas y sangrado\n- Fracturas\n- Envenenamiento\n- Ahogamiento\n- Convulsiones\n\nRecuerda siempre consultar con un veterinario después de aplicar primeros auxilios.",
+    "date": "2024-02-20",
+    "category": "Emergencias",
+    "author": "Dr. Roberto Silva",
+    "image": "img/first-aid.jpg",
+    "tags": ["emergencias", "primeros auxilios", "salud", "veterinaria"]
+  },
+  {
+    "id": 5,
+    "title": "Cómo socializar a tu cachorro correctamente",
+    "excerpt": "La socialización temprana es crucial para el desarrollo de un perro equilibrado. Aprende las mejores técnicas.",
+    "content": "La socialización es un proceso fundamental en el desarrollo de tu cachorro que determinará su comportamiento futuro. El período crítico de socialización ocurre entre las 3 y 16 semanas de edad.\n\nAspectos importantes:\n\n- Exposición gradual a diferentes personas\n- Interacción con otros perros\n- Familiarización con diferentes entornos\n- Manejo de situaciones nuevas\n- Refuerzo positivo",
+    "date": "2024-02-15",
+    "category": "Entrenamiento",
+    "author": "Lic. Patricia López",
+    "image": "img/puppy-socialization.jpg",
+    "tags": ["entrenamiento", "cachorros", "socialización", "comportamiento"]
+  },
+  {
+    "id": 6,
+    "title": "Beneficios de la esterilización en mascotas",
+    "excerpt": "La esterilización no solo previene embarazos no deseados, sino que también tiene importantes beneficios para la salud.",
+    "content": "La esterilización es una de las decisiones más importantes que puedes tomar por la salud de tu mascota. Además de prevenir embarazos no deseados, ofrece múltiples beneficios para la salud.\n\nBeneficios para hembras:\n- Previene infecciones uterinas\n- Reduce el riesgo de cáncer de mama\n- Elimina el celo\n\nBeneficios para machos:\n- Reduce comportamientos agresivos\n- Previene cáncer testicular\n- Disminuye el marcaje territorial",
+    "date": "2024-02-10",
+    "category": "Salud",
+    "author": "Dra. Carmen Ruiz",
+    "image": "img/spay-neuter.jpg",
+    "tags": ["esterilización", "salud", "prevención", "cuidado"]
+  }
+]

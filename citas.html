@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citas Veterinarias - Alaska</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="citas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="img/alaska-ico.ico" type="image/x-icon">
+  </head>
+  <style>
+      .inicial-circulo {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 35px !important;
+  height: 35px !important;
+  min-width: 35px !important;
+  min-height: 35px !important;
+  border-radius: 50% !important;
+  background-color: var(--color-acento) !important;
+  color: white !important;
+  padding: 0 !important;
+  margin: 0 8px !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+  box-shadow: 0 2px 8px rgba(255, 112, 67, 0.4) !important;
+  text-decoration: none !important;
+  line-height: 1 !important;
+  border: 2px solid rgba(255, 255, 255, 0.8) !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  overflow: hidden !important;
+  }
+
+  .inicial-circulo:hover {
+  background-color: rgba(255, 112, 67, 0.9) !important;
+  color: white !important;
+  transform: translateY(-2px) scale(1.08) !important;
+  box-shadow: 0 4px 15px rgba(255, 112, 67, 0.6) !important;
+  border-color: rgba(255, 255, 255, 1) !important;
+  }
+
+  .inicial-circulo::before {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 20%;
+  height: 20%;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  opacity: 0;
+  }
+
+  .inicial-circulo:hover::before {
+  width: 70%;
+  height: 70%;
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.2);
+  }
+</style>
+
+  <body>
+    <!-- Cabecera -->
+    <header class="cabecera-principal">
+      <div class="contenedor contenedor-cabecera">
+        <div class="logo">
+            <div class="contenedor-logo">
+                <div class="contenedor-imagen-logo">
+                    <img src="img/logo.jpg" alt="Logo Alaska" class="img-logo" />
+                </div>
+                <h1>ALASKA</h1>
+            </div>
+        </div>
+        <nav class="navegacion-principal">
+            <button class="boton-menu-movil" aria-label="Abrir menú">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="lista-navegacion">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#nosotros">Nosotros</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+                <li><a href="citas.html" class="activo">Citas</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="index.html#registro" class="boton-nav">Registrarse</a></li>
+                <li><a href="dashboard.php" class="inicial-circulo">U</a></li>
+            </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Sección de Citas -->
+    <section class="seccion-citas">
+      <div class="contenedor">
+        <div class="encabezado-seccion">
+          <h2>Citas Veterinarias</h2>
+          <p class="subtitulo-seccion">Agenda una cita para tu mascota y revisa su historial médico</p>
+        </div>
+        
+        <div class="contenedor-citas">
+          <!-- Formulario de Citas -->
+          <div class="formulario-citas">
+            <h3>Reservar Cita</h3>
+            <div id="mensaje-exito" class="mensaje-exito"></div>
+            <div id="mensaje-error" class="mensaje-error"></div>
+            
+            <form id="formulario-citas" class="formulario-citas">
+              <div class="grupo-formulario">
+                <label for="mascota">Mascota</label>
+                <div class="entrada-con-icono">
+                  <i class="fas fa-paw"></i>
+                  <select id="mascota" name="petId" required>
+                    <option value="">Selecciona tu mascota</option>
+                    <option value="perro">Perro</option>
+                    <option value="gato">Gato</option>
+                    <option value="ave">Ave (Loros, Canarios, etc.)</option>
+                    <option value="roedor">Roedores (Hámster, Cobaya, etc.)</option>
+                    <option value="conejo">Conejo</option>
+                    <option value="tortuga">Tortuga</option>
+                    <option value="pez">Pez</option>
+                    <option value="reptil">Reptil (Iguana, Serpiente, etc.)</option>
+                    <option value="otro">Otra mascota</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="grupo-formulario">
+                <label for="fecha">Fecha y Hora</label>
+                <div class="entrada-con-icono">
+                  <i class="fas fa-calendar-alt"></i>
+                  <input type="datetime-local" id="fecha" name="appointmentDate" required>
+                </div>
+              </div>
+              
+              <div class="grupo-formulario">
+                <label for="razon">Motivo de la Cita</label>
+                <div class="entrada-con-icono">
+                  <i class="fas fa-clipboard-list"></i>
+                  <select id="razon" name="reason" required>
+                    <option value="">Selecciona un motivo</option>
+                    <option value="Revisión general">Revisión general</option>
+                    <option value="Vacunación">Vacunación</option>
+                    <option value="Desparasitación">Desparasitación</option>
+                    <option value="Enfermedad">Enfermedad</option>
+                    <option value="Cirugía">Cirugía</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="grupo-formulario">
+                <label for="notas">Notas Adicionales</label>
+                <div class="entrada-con-icono">
+                  <i class="fas fa-sticky-note"></i>
+                  <textarea id="notas" name="notes" placeholder="Describe los síntomas o cualquier información relevante"></textarea>
+                </div>
+              </div>
+              
+              <button type="submit" class="boton-primario">Reservar Cita</button>
+            </form>
+          </div>
+          
+          <!-- Historial de Citas -->
+          <div class="historial-citas">
+            <div class="encabezado-historial">
+              <h3>Historial de Visitas y Tratamientos</h3>
+              <div class="controles-historial">
+                <div class="grupo-formulario">
+                  <div class="entrada-con-icono">
+                    <i class="fas fa-filter"></i>
+                    <select id="filtro-mascota">
+                      <option value="todas">Todas las mascotas</option>
+                      <option value="Max">Max</option>
+                      <option value="Luna">Luna</option>
+                      <option value="Rocky">Rocky</option>
+                    </select>
+                  </div>
+                </div>
+                <button id="btn-exportar" class="boton-secundario" title="Exportar historial">
+                  <i class="fas fa-file-export"></i> Exportar
+                </button>
+              </div>
+            </div>
+            
+            <div id="lista-citas" class="lista-citas">
+              <!-- El historial se cargará dinámicamente -->
+              <div class="sin-citas">
+                <i class="fas fa-calendar-times fa-3x"></i>
+                <p>No hay citas registradas</p>
+              </div>
+            </div>
+            
+            <!-- Plantilla de tarjeta de visita (oculta) -->
+            <template id="plantilla-visita">
+              <div class="tarjeta-visita">
+                <div class="cabecera-tarjeta">
+                  <div class="fecha-visita">
+                    <i class="far fa-calendar-alt"></i>
+                    <span class="fecha">15/05/2023</span>
+                  </div>
+                  <div class="mascota">
+                    <i class="fas fa-paw"></i>
+                    <span class="nombre-mascota">Max</span>
+                  </div>
+                  <span class="estado completada">Completada</span>
+                </div>
+                <div class="cuerpo-tarjeta">
+                  <div class="detalle">
+                    <h4>Diagnóstico</h4>
+                    <p class="diagnostico">Infección cutánea</p>
+                  </div>
+                  <div class="detalle">
+                    <h4>Tratamiento</h4>
+                    <p class="tratamiento">Antibióticos y baños medicados</p>
+                  </div>
+                  <div class="detalle">
+                    <h4>Veterinario</h4>
+                    <p class="veterinario">Dr. García</p>
+                  </div>
+                  <button class="boton-detalles">
+                    <i class="fas fa-chevron-down"></i> Ver detalles
+                  </button>
+                  <div class="detalles-adicionales">
+                    <h5>Notas adicionales:</h5>
+                    <p class="notas">Infección causada por alergia a detergente. Aplicar antibiótico tópico dos veces al día y baño medicado semanal durante 3 semanas.</p>
+                    <div class="acciones">
+                      <button class="boton-texto">
+                        <i class="fas fa-file-pdf"></i> Descargar PDF
+                      </button>
+                      <button class="boton-texto">
+                        <i class="fas fa-print"></i> Imprimir
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer class="pie-pagina">
+        <div class="contenedor">
+            <div class="contenido-footer">
+                <div class="columna-footer info-contacto">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Ciudad</p>
+                    <p><i class="fas fa-phone"></i> +123 456 7890</p>
+                    <p><i class="fas fa-envelope"></i> info@alaska-mascotas.com</p>
+                </div>
+                <div class="columna-footer enlaces-rapidos">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="../index.html">Inicio</a></li>
+                        <li><a href="../index.html#nosotros">Nosotros</a></li>
+                        <li><a href="citas.html">Citas</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="columna-footer redes-sociales">
+                    <h3>Síguenos</h3>
+                    <div class="iconos-sociales">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../views/MenuView.js"></script>
+    <script src="../views/ButtonView.js"></script>
+    <script src="../views/FormView.js"></script>
+    <script src="../views/AppointmentView.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/historial-visitas.js"></script>
+  </body>
+</html>
