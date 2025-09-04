@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Alaska</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="./img/alaska-ico.ico" type="image/x-icon">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <style>
+      .dashboard {
+        padding: 3rem 0;
+      }
+      .paneles {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+      }
+      .panel {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,.08);
+        padding: 1.25rem;
+      }
+      .panel h3 { color: var(--color-primario); margin-bottom: .5rem; }
+      .acciones { display:flex; gap:.5rem; flex-wrap:wrap }
+      .acciones .boton-primario { padding: .5rem 1rem }
+      .lista {
+        margin-top: 1rem;
+        display: grid;
+        gap: .5rem;
+      }
+      .item {
+        display: grid; gap: .5rem; grid-template-columns: 1fr auto;
+        align-items: center; padding: .6rem .8rem; border:1px solid var(--color-borde);
+        border-radius: 8px; background:#fafafa;
+      }
+      .item small{ color: var(--color-texto-claro); }
+      .item .acciones { gap: .25rem }
+      .item button{ padding:.35rem .6rem }
+      .form-inline { display:grid; gap:.5rem; grid-template-columns: 1.2fr 1fr 1fr auto }
+      .form-inline input, .form-inline select { padding:.5rem; border:1px solid var(--color-borde); border-radius:6px }
+      .muted { color: var(--color-texto-claro); font-size: .9rem }
+    </style>
+  </head>
+  <body>
+    <header class="cabecera-principal">
+      <div class="contenedor contenedor-cabecera">
+        <div class="logo">
+          <div class="contenedor-logo">
+            <div class="contenedor-imagen-logo">
+              <img src="img/logo.jpg" alt="Logo Alaska" class="img-logo" />
+            </div>
+            <h1>ALASKA</h1>
+          </div>
+        </div>
+        <nav class="navegacion-principal">
+          <button class="boton-menu-movil" aria-label="Abrir menú">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul class="lista-navegacion">
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contacto">Contacto</a></li>
+            <li><a href="#" data-action="logout">Cerrar sesión</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="dashboard">
+        <div class="contenedor">
+          <div class="encabezado-seccion">
+            <h2>Tu panel</h2>
+            <p class="subtitulo-seccion">Gestión rápida de tus tareas con tu mascota</p>
+          </div>
+          <div class="paneles">
+            <div class="panel" id="panel-recordatorios">
+              <h3>Recordatorios</h3>
+              <p class="muted">Notificaciones de vacunas, medicación y paseos.</p>
+              <form id="form-recordatorio" class="form-inline">
+                <input type="text" name="titulo" placeholder="Título (p.ej. Vacuna Rabia)" required />
+                <input type="date" name="fecha" required />
+                <select name="tipo">
+                  <option value="vacuna">Vacuna</option>
+                  <option value="medicacion">Medicación</option>
+                  <option value="paseo">Paseo</option>
+                </select>
+                <button class="boton-primario" type="submit">Agregar</button>
+              </form>
+              <div class="lista" id="lista-recordatorios"></div>
+            </div>
+
+            <div class="panel" id="panel-salud">
+              <h3>Salud</h3>
+              <p class="muted">Registros de visitas veterinarias y tratamientos.</p>
+              <form id="form-salud" class="form-inline">
+                <input type="text" name="motivo" placeholder="Motivo (p.ej. Control)" required />
+                <input type="date" name="fecha" required />
+                <input type="text" name="notas" placeholder="Notas" />
+                <button class="boton-primario" type="submit">Añadir</button>
+              </form>
+              <div class="lista" id="lista-salud"></div>
+            </div>
+
+            <div class="panel" id="panel-alimentacion">
+              <h3>Alimentación</h3>
+              <p class="muted">Horarios y porciones.</p>
+              <form id="form-alimentacion" class="form-inline">
+                <input type="time" name="hora" required />
+                <input type="number" min="1" name="porcion" placeholder="Porción (g)" required />
+                <select name="tipo">
+                  <option value="pienso">Pienso</option>
+                  <option value="húmeda">Húmeda</option>
+                  <option value="mixta">Mixta</option>
+                </select>
+                <button class="boton-primario" type="submit">Guardar</button>
+              </form>
+              <div class="lista" id="lista-alimentacion"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="pie-pagina">
+      <div class="contenedor">
+        <div class="contenido-footer">
+          <div class="columna-footer redes-sociales">
+            <h3>Síguenos</h3>
+            <div class="iconos-sociales">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="./views/MenuView.js"></script>
+    <script src="./views/ButtonView.js"></script>
+    <script src="./views/FormView.js"></script>
+    <script src="./utils/storage.js"></script>
+  <script src="./utils/auth.js"></script>
+  <script src="./utils/chatbot.js"></script>
+    <script>
+      (function(){
+        const K = {
+          recordatorios: 'recordatorios',
+          salud: 'salud',
+          alimentacion: 'alimentacion'
+        };
+
+        function on(el, ev, cb){ el && el.addEventListener(ev, cb); }
+        function h(tag, attrs={}, children=[]) {
+          const el = document.createElement(tag);
+          Object.entries(attrs).forEach(([k,v]) => {
+            if (k === 'class') el.className = v; else if (k==='text') el.textContent = v; else el.setAttribute(k, v);
+          });
+          children.forEach(c => el.appendChild(c));
+          return el;
+        }
+
+        function renderList(key, container, format) {
+          const items = window.AlaskaStore.get(key, []);
+          container.innerHTML = '';
+          if (items.length === 0) {
+            container.appendChild(h('div', { class:'muted', text:'Sin elementos aún.' }));
+            return;
+          }
+          items.forEach(item => {
+            const txt = h('div', { }, [
+              h('div', { text: format(item) }),
+              h('small', { text: new Date(parseInt(item.id.split('_')[0],10)).toLocaleString() })
+            ]);
+            const btnDel = h('button', { class:'boton-secundario', type:'button', text:'Eliminar' });
+            on(btnDel, 'click', () => {
+              window.AlaskaStore.remove(key, item.id);
+              renderAll();
+            });
+            const row = h('div', { class:'item' }, [txt, h('div', { class:'acciones' }, [btnDel])]);
+            container.appendChild(row);
+          });
+        }
+
+        function renderAll(){
+          renderList(K.recordatorios, document.getElementById('lista-recordatorios'), (i)=>`${i.titulo} — ${i.tipo} — ${i.fecha}`);
+          renderList(K.salud, document.getElementById('lista-salud'), (i)=>`${i.motivo} — ${i.fecha} — ${i.notas||''}`);
+          renderList(K.alimentacion, document.getElementById('lista-alimentacion'), (i)=>`${i.hora} — ${i.porcion} g — ${i.tipo}`);
+        }
+
+        function initForms(){
+          const fr = document.getElementById('form-recordatorio');
+          const fs = document.getElementById('form-salud');
+          const fa = document.getElementById('form-alimentacion');
+          if (fr) on(fr, 'submit', (e)=>{
+            e.preventDefault();
+            const fd = new FormData(fr);
+            window.AlaskaStore.add(K.recordatorios, {
+              titulo: fd.get('titulo'), fecha: fd.get('fecha'), tipo: fd.get('tipo')
+            });
+            fr.reset(); renderAll();
+          });
+          if (fs) on(fs, 'submit', (e)=>{
+            e.preventDefault();
+            const fd = new FormData(fs);
+            window.AlaskaStore.add(K.salud, {
+              motivo: fd.get('motivo'), fecha: fd.get('fecha'), notas: fd.get('notas')
+            });
+            fs.reset(); renderAll();
+          });
+          if (fa) on(fa, 'submit', (e)=>{
+            e.preventDefault();
+            const fd = new FormData(fa);
+            window.AlaskaStore.add(K.alimentacion, {
+              hora: fd.get('hora'), porcion: parseInt(fd.get('porcion'),10)||0, tipo: fd.get('tipo')
+            });
+            fa.reset(); renderAll();
+          });
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+          initForms();
+          renderAll();
+        });
+      })();
+    </script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+      }
+    </script>
+    <script src="./app.js"></script>
+  </body>
+</html>
