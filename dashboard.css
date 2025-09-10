@@ -676,3 +676,150 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ------------------------------ */
+/* Dark Mode Overrides Dashboard  */
+/* ------------------------------ */
+
+:root[data-theme="dark"] {
+  --dashboard-bg: #121416;
+  --card-bg: #1e2124;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .stat-card {
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+[data-theme="dark"] .stat-card i {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-primario);
+}
+
+[data-theme="dark"] .dashboard-section {
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+[data-theme="dark"] .section-header {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .reminder-item,
+[data-theme="dark"] .pet-health-card,
+[data-theme="dark"] .blog-article,
+[data-theme="dark"] .activity-item {
+  background: #252a30;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .activity-item:hover {
+  background: #2b3238;
+}
+
+[data-theme="dark"] .reminder-item.urgent {
+  background: rgba(255, 153, 0, 0.15);
+  border-left-color: var(--color-secundario);
+}
+
+[data-theme="dark"] .pet-species,
+[data-theme="dark"] .reminder-date,
+[data-theme="dark"] .blog-article-category {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-primario);
+}
+
+[data-theme="dark"] .pet-health-status.healthy {
+  background: rgba(46, 125, 50, 0.15);
+  color: #6fdc82;
+}
+[data-theme="dark"] .pet-health-status.attention {
+  background: rgba(255, 152, 0, 0.15);
+  color: #ffb74d;
+}
+[data-theme="dark"] .pet-health-status.warning {
+  background: rgba(198, 40, 40, 0.18);
+  color: #ef9a9a;
+}
+
+[data-theme="dark"] .modal-content {
+  background: #1e2124;
+  box-shadow: var(--card-shadow-hover);
+  color: var(--color-texto);
+}
+
+[data-theme="dark"] .modal-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .modal-close {
+  color: var(--color-texto-claro);
+}
+
+[data-theme="dark"] .modal-close:hover {
+  background: #252a30;
+  color: var(--color-texto);
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+  background: #252a30;
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-texto);
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px rgba(91, 140, 90, 0.25);
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: #2a3036;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--color-texto);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background: #343c44;
+}
+
+[data-theme="dark"] .empty-state i {
+  opacity: 0.4;
+}
+
+[data-theme="dark"] .activity-icon.pet { background: #8e24aa; }
+[data-theme="dark"] .activity-icon.blog { background: #1976d2; }
+
+[data-theme="dark"] .activity-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] .dashboard-main {
+  background-color: var(--dashboard-bg);
+}
+
+[data-theme="dark"] .reminder-item:hover,
+[data-theme="dark"] .pet-health-card:hover,
+[data-theme="dark"] .blog-article:hover {
+  box-shadow: 0 4px 14px rgba(0,0,0,0.55);
+}
+
+[data-theme="dark"] .stat-card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+[data-theme="dark"] .reminder-date,
+[data-theme="dark"] .pet-species,
+[data-theme="dark"] .blog-article-category {
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+[data-theme="dark"] .activity-item {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+

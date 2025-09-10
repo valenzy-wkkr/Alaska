@@ -1,11 +1,12 @@
 <?php
 
 session_start();
+if (!isset($_SESSION['usuario'])) { header('Location: login.php'); exit(); }
+// Preparar variables de usuario
+$nombreMostrado = isset($_SESSION['nombre']) && $_SESSION['nombre'] !== ''
+    ? $_SESSION['nombre']
+    : (isset($_SESSION['apodo']) && $_SESSION['apodo'] !== '' ? $_SESSION['apodo'] : $_SESSION['usuario']);
 
-if (!isset($_SESSION['usuario'])) {
-    header('Location: index.html');
-    exit();
-}
 
 
 
@@ -71,7 +72,7 @@ if (!isset($_SESSION['usuario'])) {
             <div class="dashboard-header">
                 <div class="dashboard-welcome">
                     <h1>¡Bienvenido de vuelta!</h1>
-                    <p id="userName"><?php echo $nombre; ?></p>
+                    <p id="userName"><?php echo htmlspecialchars($nombreMostrado, ENT_QUOTES, 'UTF-8'); ?></p>
                 </div>
                 <div class="dashboard-stats">
                     <div class="stat-card">
@@ -254,5 +255,7 @@ if (!isset($_SESSION['usuario'])) {
 
     <!-- Scripts -->
     <script src="js/dashboard.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <?php include __DIR__ . '/includes/chatbot_include.php'; ?>
   </body>
 </html>

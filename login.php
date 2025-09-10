@@ -81,7 +81,7 @@ if (isset($_SESSION['usuario'])) {
         </div>
         <button type="submit" class="btn-login">Iniciar Sesión</button>
       </form>
-      <a href="#">¿Olvidaste tu contraseña?</a>
+  <a href="forgot_password.php">¿Olvidaste tu contraseña?</a>
     </div>
   </main>
 
@@ -125,6 +125,8 @@ if (isset($_SESSION['usuario'])) {
   <script src="views/ButtonView.js"></script>
   <script src="views/FormView.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/theme-toggle.js"></script>
+  <?php include __DIR__ . '/includes/chatbot_include.php'; ?>
 </body>
 
 </html>

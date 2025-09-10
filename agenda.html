@@ -4,8 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alaska - Agenda Veterinaria</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/style-adicional.css" />
+    <!-- Rutas corregidas al estar el archivo en la raíz -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style-adicional.css" />
+    <link rel="stylesheet" href="agenda.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -35,12 +37,13 @@
                 <i class="fas fa-bars"></i>
             </button>
             <ul class="lista-navegacion">
-                <li><a href="../index.html#inicio">Inicio</a></li>
-                <li><a href="../index.html#nosotros">Nosotros</a></li>
-                <li><a href="../index.html#contacto">Contacto</a></li>
-                <li><a href="../index.html#blog">Blog</a></li>
+                <li><a href="index.html#inicio">Inicio</a></li>
+                <li><a href="index.html#nosotros">Nosotros</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="citas.html">Citas</a></li>
+                <li><a href="blog.html">Blog</a></li>
                 <li><a href="agenda.html" class="boton-nav activo">Agenda</a></li>
-                <li><a href="../index.html#registro" class="boton-nav">Registrarse</a></li>
+                <li><a href="login.php" class="inicial-circulo" title="Iniciar sesión">U</a></li>
             </ul>
         </nav>
       </div>
@@ -235,9 +238,11 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="../views/MenuView.js"></script>
-    <script src="../views/ButtonView.js"></script>
-    <script src="../views/FormView.js"></script>
-    <script src="../js/agenda.js"></script>
+    <script src="views/MenuView.js"></script>
+    <script src="views/ButtonView.js"></script>
+    <script src="views/FormView.js"></script>
+    <script src="js/agenda.js"></script>
+    <script src="js/theme-toggle.js"></script>
+    <script src="utils/ai-chatbot.js"></script>
   </body>
 </html>

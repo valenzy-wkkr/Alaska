@@ -42,6 +42,56 @@ class MenuView {
     
     // Configurar estado inicial
     this.closeMenu();
+
+    // Gestionar iconos según ancho
+    this.manageIcons();
+  }
+
+  addIcons(){
+    const map = [
+      {match:/inicio/i, icon:'fa-house'},
+      {match:/nosotros/i, icon:'fa-users'},
+      {match:/contacto/i, icon:'fa-envelope'},
+      {match:/citas/i, icon:'fa-calendar-check'},
+      {match:/blog/i, icon:'fa-blog'},
+      {match:/agenda/i, icon:'fa-calendar-days'},
+      {match:/registrarse|registro/i, icon:'fa-user-plus'},
+      {match:/login|iniciar/i, icon:'fa-right-to-bracket'}
+    ];
+    this.menuItems.forEach(a=>{
+      if(a.dataset.iconified) return;
+      const txt = a.textContent.trim();
+      const found = map.find(m=> m.match.test(txt));
+      if(found){
+        const iconEl = document.createElement('i');
+        iconEl.className = `fa-solid ${found.icon} nav-icon-item`;
+        iconEl.setAttribute('data-auto-icon','1');
+        if(!a.querySelector('i.nav-icon-item[data-auto-icon]')){
+          a.insertBefore(iconEl, a.firstChild);
+        }
+      }
+      a.dataset.iconified = '1';
+    });
+  }
+
+  removeIcons(){
+    if(!this.menuItems) return;
+    this.menuItems.forEach(a=>{
+      a.querySelectorAll('i.nav-icon-item[data-auto-icon]')
+        .forEach(ic=> ic.remove());
+      delete a.dataset.iconified;
+    });
+  }
+
+  manageIcons(){
+    // Usar mitad del ancho físico de la pantalla como referencia, asegurando rango razonable
+    const half = Math.round(window.screen.width / 2);
+    const breakpoint = Math.min(1400, Math.max(900, half));
+    if(window.innerWidth <= breakpoint){
+      this.addIcons();
+    } else {
+      this.removeIcons();
+    }
   }
 
   /**
@@ -151,6 +201,7 @@ class MenuView {
     if (window.innerWidth > 768) {
       this.closeMenu();
     }
+  this.manageIcons();
   }
 
   /**

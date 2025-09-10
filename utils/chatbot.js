@@ -1,35 +1,39 @@
 (function(){
-  // Styles: modern, compact, accessible
+  // Diseño equilibrado, ordenado y profesional, colores cálidos y tamaños proporcionados
   const css = `
-  .alaska-chatbot{position:fixed;right:16px;bottom:16px;z-index:9999;font-family:var(--fuente-base, 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial)}
-  .alaska-chatbot__btn{background:#2E86AB;color:#fff;border:none;border-radius:50%;width:56px;height:56px;box-shadow:0 8px 24px rgba(0,0,0,.22);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease, box-shadow .15s ease}
-  .alaska-chatbot__btn:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(0,0,0,.28)}
-  .alaska-chatbot__panel{position:fixed;right:16px;bottom:84px;width:360px;max-height:70vh;background:#fff;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.25);display:none;overflow:hidden;border:1px solid #e8eef4}
-  .alaska-chatbot__header{background:linear-gradient(135deg,#2E86AB,#1e6d8d);color:#fff;padding:.7rem .85rem;font-weight:600;display:flex;gap:.5rem;justify-content:space-between;align-items:center}
-  .alaska-chatbot__title{display:flex;align-items:center;gap:.5rem}
-  .alaska-chatbot__avatar{width:28px;height:28px;border-radius:50%;background:#fff3;display:inline-flex;align-items:center;justify-content:center}
-  .alaska-chatbot__actions{display:flex;gap:.25rem}
-  .alaska-chatbot__iconbtn{background:transparent;border:none;color:#fff;opacity:.9;font-size:18px;cursor:pointer}
-  .alaska-chatbot__body{padding:.75rem;height:360px;overflow:auto;display:flex;flex-direction:column;gap:.6rem;background:linear-gradient(180deg,#f8fbfe,#fbfcfe)}
-  .alaska-chatbot__suggestions{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.25rem}
-  .alaska-chip{background:#e8f3f9;color:#0e5571;border:1px solid #d3e6f1;border-radius:999px;padding:.25rem .6rem;font-size:.85rem;cursor:pointer}
-  .alaska-chatbot__row{display:flex;gap:.5rem}
-  .alaska-chatbot__row--user{justify-content:flex-end}
-  .alaska-chatbot__msg{padding:.5rem .65rem;border-radius:12px;max-width:85%;position:relative;line-height:1.35}
-  .alaska-chatbot__msg--user{background:#dff1fc;color:#0d4056}
-  .alaska-chatbot__msg--bot{background:#f1f5f9;color:#0b2233;border:1px solid #e6ecf2}
-  .alaska-chatbot__time{display:block;margin-top:.25rem;font-size:.72rem;color:#6b7a88;opacity:.9}
-  .alaska-chatbot__typing{display:inline-flex;gap:4px;align-items:center}
-  .alaska-dot{width:6px;height:6px;border-radius:50%;background:#8aa9b9;opacity:.7;animation:alaska-bounce 1.2s infinite}
-  .alaska-dot:nth-child(2){animation-delay:.15s}
-  .alaska-dot:nth-child(3){animation-delay:.3s}
+  .alaska-chatbot{position:fixed;right:20px;bottom:20px;z-index:9999;font-family:'Poppins', 'Montserrat', Arial, sans-serif;}
+  .alaska-chatbot__btn{background:#ff9800;color:#fff;border:none;border-radius:50%;width:48px;height:48px;box-shadow:0 4px 16px rgba(255,152,0,.15);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s, box-shadow .15s;}
+  .alaska-chatbot__btn:hover{transform:scale(1.08);box-shadow:0 8px 24px rgba(255,152,0,.22);}
+  .alaska-chatbot__panel{position:fixed;right:20px;bottom:72px;width:320px;max-width:95vw;max-height:70vh;background:#fdf6ee;border-radius:14px;box-shadow:0 8px 32px rgba(67,160,71,.10);display:none;overflow:hidden;border:1.5px solid #43a047;}
+  .alaska-chatbot__header{background:linear-gradient(90deg,#ff9800 60%,#43a047 100%);color:#fff;padding:0.7rem 1rem;font-weight:600;display:flex;gap:.5rem;justify-content:space-between;align-items:center;}
+  .alaska-chatbot__title{display:flex;align-items:center;gap:.5rem;}
+  .alaska-chatbot__avatar{width:28px;height:28px;border-radius:50%;background:#fff3;display:inline-flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 1px 4px rgba(255,152,0,.08);}
+  .alaska-chatbot__actions{display:flex;gap:.2rem;}
+  .alaska-chatbot__iconbtn{background:transparent;border:none;color:#fff;opacity:.9;font-size:16px;cursor:pointer;}
+  .alaska-chatbot__body{padding:0.7rem;height:260px;overflow:auto;display:flex;flex-direction:column;gap:.5rem;background:#fdf6ee;}
+  .alaska-chatbot__suggestions{display:flex;flex-wrap:wrap;gap:.3rem;margin-bottom:.2rem;}
+  .alaska-chip{background:#43a047;color:#fff;border:none;border-radius:999px;padding:.22rem .7rem;font-size:.85rem;cursor:pointer;box-shadow:0 1px 4px rgba(67,160,71,.06);transition:background .15s;}
+  .alaska-chip:hover{background:#388e3c;}
+  .alaska-chatbot__row{display:flex;gap:.4rem;}
+  .alaska-chatbot__row--user{justify-content:flex-end;}
+  .alaska-chatbot__msg{padding:.5rem .7rem;border-radius:10px;max-width:80%;position:relative;line-height:1.4;box-shadow:0 1px 4px rgba(255,152,0,.05);font-size:.95rem;}
+  .alaska-chatbot__msg--user{background:#ffe0b2;color:#388e3c;border:1px solid #ffcc80;}
+  .alaska-chatbot__msg--bot{background:#fffde7;color:#6d4c41;border:1px solid #ffe0b2;}
+  .alaska-chatbot__msg--bot .alaska-chatbot__info{display:block;font-size:.8rem;color:#ff9800;margin-top:.3rem;}
+  .alaska-chatbot__time{display:block;margin-top:.15rem;font-size:.7rem;color:#43a047;opacity:.7;}
+  .alaska-chatbot__typing{display:inline-flex;gap:3px;align-items:center;}
+  .alaska-dot{width:6px;height:6px;border-radius:50%;background:#43a047;opacity:.7;animation:alaska-bounce 1.2s infinite;}
+  .alaska-dot:nth-child(2){animation-delay:.15s;}
+  .alaska-dot:nth-child(3){animation-delay:.3s;}
   @keyframes alaska-bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-3px);opacity:1}}
-  .alaska-chatbot__input{display:flex;gap:.45rem;padding:.6rem;border-top:1px solid #e3e6ea;background:#fff}
-  .alaska-chatbot__input input{flex:1;padding:.55rem;border:1px solid #d4d9df;border-radius:10px;font-size:.95rem}
-  .alaska-chatbot__send{background:#2E86AB;color:#fff;border:none;border-radius:10px;padding:.55rem .8rem;font-weight:600;cursor:pointer}
+  .alaska-chatbot__input{display:flex;gap:.4rem;padding:.5rem;border-top:1px solid #ffcc80;background:#fdf6ee;}
+  .alaska-chatbot__input input{flex:1;padding:.5rem;border:1px solid #ffcc80;border-radius:8px;font-size:.95rem;background:#fffde7;}
+  .alaska-chatbot__send{background:#ff9800;color:#fff;border:none;border-radius:8px;padding:.5rem .8rem;font-weight:600;cursor:pointer;box-shadow:0 1px 4px rgba(255,152,0,.08);font-size:.95rem;}
+  .alaska-chatbot__send:hover{background:#43a047;}
 
   @media (max-width: 480px){
-    .alaska-chatbot__panel{width:calc(100vw - 32px);max-height:70vh}
+    .alaska-chatbot__panel{width:calc(100vw - 32px);max-height:60vh;}
+    .alaska-chatbot__body{height:160px;}
   }
   `;
   const style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
@@ -147,7 +151,11 @@
     function addMsg(text, who){
       const row = el('div', { class:'alaska-chatbot__row ' + (who==='user' ? 'alaska-chatbot__row--user' : '') });
       const m = el('div', { class: 'alaska-chatbot__msg alaska-chatbot__msg--' + who });
-      m.textContent = text;
+      if(who==='bot') {
+        m.innerHTML = `<span>${text}</span><span class="alaska-chatbot__info">⚠️ Recuerda: Esta información es solo orientativa. Ante cualquier duda o síntoma, lo más recomendable es acudir a un veterinario profesional.</span>`;
+      } else {
+        m.textContent = text;
+      }
       const t = el('span', { class:'alaska-chatbot__time', text: nowTime() });
       m.appendChild(t);
       row.appendChild(m);
@@ -207,7 +215,7 @@
     input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); handleSend(); }});
 
     // Welcome + suggestion chips
-    addMsg('Hola, soy tu asistente de cuidado animal. Respondo sobre alimentación, salud, higiene, comportamiento y vacunas. ¿En qué te ayudo hoy?', 'bot');
+  addMsg('¡Hola! Soy tu asistente Alaska. Te ayudo con información sobre alimentación, salud, higiene, comportamiento y vacunas de mascotas. Recuerda que siempre es mejor consultar a un veterinario profesional ante cualquier duda o síntoma.', 'bot');
     const chips = [
       'Calendario de vacunas para perros',
       '¿Qué puede comer un gato?',
