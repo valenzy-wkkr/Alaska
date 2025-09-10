@@ -18,6 +18,42 @@ require_once __DIR__ . '/../php/conexion.php';
   author VARCHAR(120) NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )");
+// Auto-creación mínima de tablas sociales para evitar fallos si aún no se migraron
+@mysqli_query($conexion, "CREATE TABLE IF NOT EXISTS social_posts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  content TEXT NOT NULL,
+  image VARCHAR(255) NULL,
+  tags VARCHAR(255) NULL,
+  likes_count INT NOT NULL DEFAULT 0,
+  comments_count INT NOT NULL DEFAULT 0,
+  is_hidden TINYINT(1) NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+)");
+@mysqli_query($conexion, "CREATE TABLE IF NOT EXISTS social_comments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  post_id INT NOT NULL,
+  user_id INT NOT NULL,
+  comment TEXT NOT NULL,
+  is_hidden TINYINT(1) NOT NULL DEFAULT 0,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_post (post_id)
+)");
+@mysqli_query($conexion, "CREATE TABLE IF NOT EXISTS social_likes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  post_id INT NOT NULL,
+  user_id INT NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_like (post_id,user_id)
+)");
+@mysqli_query($conexion, "CREATE TABLE IF NOT EXISTS social_reports (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  post_id INT NULL,
+  comment_id INT NULL,
+  user_id INT NOT NULL,
+  reason VARCHAR(160) NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+)");
 $stats = [
   'usuarios'=>(int)mysqli_fetch_row(mysqli_query($conexion,"SELECT COUNT(*) FROM usuarios"))[0],
   'blog_posts'=> (int)(mysqli_fetch_row(@mysqli_query($conexion,"SELECT COUNT(*) FROM posts"))[0] ?? 0),
