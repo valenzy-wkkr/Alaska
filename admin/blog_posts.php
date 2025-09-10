@@ -71,8 +71,8 @@ if($ok){
 </head><body>
 <header class="admin-topbar"><h1>Blog</h1><nav><a href="index.php">Panel</a></nav></header>
 <main style="padding:1rem 1.25rem;max-width:1100px;margin:auto;">
-  <?php if(!empty($created)): ?><div class="msg ok">Post creado correctamente.</div><?php endif; ?>
-  <?php if(!empty($deleted)): ?><div class="msg ok">Post eliminado.</div><?php endif; ?>
+  <?php if(!empty($created)): ?><div class="msg ok">Entrada creada correctamente.</div><?php endif; ?>
+  <?php if(!empty($deleted)): ?><div class="msg ok">Entrada eliminada.</div><?php endif; ?>
   <?php if(!empty($error)): ?><div class="msg err"><?=h($error)?></div><?php endif; ?>
   <details open>
     <summary style="cursor:pointer;font-weight:600;margin-bottom:.5rem;">Crear nuevo post</summary>
@@ -91,7 +91,7 @@ if($ok){
     </form>
   </details>
 
-  <h2 style="margin:1rem 0 .6rem;">Listado (<?=$total?>)</h2>
+  <h2 style="margin:1rem 0 .6rem;">Listado de entradas (<?=$total?>)</h2>
   <div style="overflow-x:auto;">
     <table class="blog">
       <thead><tr><th>ID</th><th>Título</th><th>Categoría</th><th>Tags</th><th>Fecha</th><th>Acciones</th></tr></thead>

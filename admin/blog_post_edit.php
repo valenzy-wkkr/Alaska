@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']==='POST') {
     }
 }
 ?>
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Editar Post</title>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Editar Entrada</title>
 <link rel="stylesheet" href="../admin.css"><link rel="stylesheet" href="../style.css">
 <style>
   form.edit{display:grid;gap:.75rem;max-width:900px;margin:1rem auto;background:var(--admin-card);padding:1rem 1rem;border:1px solid var(--admin-border);border-radius:14px;}
@@ -41,7 +41,7 @@ if($_SERVER['REQUEST_METHOD']==='POST') {
   .err{background:#ffe7e6;color:#842029;border:1px solid #f5c2c0;}
 </style>
 </head><body>
-<header class="admin-topbar"><h1>Editar Post #<?=$post['id']?></h1><nav><a href="blog_posts.php">Volver</a></nav></header>
+<header class="admin-topbar"><h1>Editar Entrada #<?=$post['id']?></h1><nav><a href="blog_posts.php">Volver</a></nav></header>
 <main>
   <div style="max-width:960px;margin:auto;padding:1rem 1.25rem;">
     <?php if(!empty($saved)): ?><div class="msg ok">Guardado</div><?php endif; ?>
