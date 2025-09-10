@@ -93,6 +93,13 @@ function blog_ensure_fulltext(){
 }
 blog_ensure_fulltext();
 
+// Migración silenciosa: asegurar columna cover_image para compatibilidad con select que la utiliza.
+// Instalaciones previas podían tener la tabla posts sin este campo (versión mínima creada desde admin/index.php).
+// Evita el fatal "Unknown column 'cover_image' in 'field list'" al hacer SELECT.
+if(table_exists(blog_db(),'posts') && !column_exists(blog_db(),'posts','cover_image')){
+    @mysqli_query(blog_db(), "ALTER TABLE posts ADD cover_image VARCHAR(255) NULL AFTER tags");
+}
+
 /**
  * Lista paginada de posts con filtros.
  * Retorna: posts[], total, pages, page, perPage, hasNext, usedFulltext(bool)

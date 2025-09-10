@@ -13,6 +13,7 @@ require_once __DIR__ . '/../php/conexion.php';
   content MEDIUMTEXT NULL,
   category VARCHAR(120) NULL,
   tags VARCHAR(250) NULL,
+  cover_image VARCHAR(255) NULL,
   status VARCHAR(20) NOT NULL DEFAULT 'published',
   published_at DATETIME NULL,
   author VARCHAR(120) NULL,
