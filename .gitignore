@@ -57,4 +57,7 @@ build/
 *.tmp
 *.temp
 
+# Cache directory
+.cache/
+
 #
