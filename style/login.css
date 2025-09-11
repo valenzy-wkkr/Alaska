@@ -1,10 +1,13 @@
 /* Estilos adicionales específicos para login */
 body {
-  display: flex; 
-  flex-direction: column; 
-  min-height: 100vh; 
-  /* No forzamos fondo del body: ya lo maneja el theme global */
-  background: var(--fondo-claro); 
+  background: linear-gradient(
+    135deg,
+    var(--color-primario),
+    var(--color-primario-oscuro)
+  );
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 main {
@@ -42,11 +45,15 @@ main {
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: radial-gradient(circle at 15% 10%, rgba(255,122,61,.25), transparent 60%), radial-gradient(circle at 85% 90%, rgba(63,156,119,.22), transparent 65%);
-  opacity:.55; 
-  mix-blend-mode: overlay; 
-  pointer-events:none; 
-  transition: opacity .4s ease; 
+  background: linear-gradient(
+    135deg,
+    var(--color-primario),
+    var(--color-acento)
+  );
+  border-radius: var(--radio-borde-grande);
+  z-index: -1;
+  opacity: 0.1;
+  transition: opacity 0.3s ease;
 }
 
 .login-container:hover::before {
@@ -298,13 +305,3 @@ main {
   opacity: 1;
   background: rgba(255, 255, 255, 0.2);
 }
-
-/* Dark mode overrides */
-[data-theme="dark"] main { background: var(--fondo-claro); }
-[data-theme="dark"] .login-container { background: var(--color-bg-surface); border-color: var(--color-borde); box-shadow: 0 4px 18px -6px rgba(0,0,0,.75); }
-[data-theme="dark"] .form-group input { background: var(--color-bg-alt); color: var(--color-texto); }
-[data-theme="dark"] .form-group input:focus { background: var(--color-bg-surface); }
-[data-theme="dark"] .error-message { background: rgba(224,95,75,.12); }
-[data-theme="dark"] .login-container::before { opacity:.45; }
-[data-theme="dark"] .btn-login { box-shadow: 0 4px 14px -4px rgba(0,0,0,.65); }
-[data-theme="dark"] .btn-login:hover { box-shadow: 0 10px 28px -8px rgba(0,0,0,.85); }

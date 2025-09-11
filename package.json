@@ -7,7 +7,6 @@
   "start": "node server.js",
   "dev": "nodemon server.js"
   },
-  "admin:build": "npm --prefix admin-react install && npm --prefix admin-react run build",
   "keywords": [
     "mascotas",
     "cuidado",
@@ -16,10 +15,7 @@
   "author": "Alaska Team",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "jsonwebtoken": "^9.0.2",
-    "bcryptjs": "^2.4.3"
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
