@@ -655,8 +655,8 @@ section {
 
 .contenedor-registro {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 0.9fr 1.1fr; /* da más espacio al formulario */
+  gap: 2rem; /* más compacto */
   align-items: center;
   position: relative;
   z-index: 1;
@@ -667,6 +667,8 @@ section {
   overflow: hidden;
   box-shadow: var(--sombra-caja);
   position: relative;
+  max-height: 380px; /* reduce tamaño visual de la imagen */
+  align-self: start; /* aprovecha mejor el espacio vertical */
 }
 
 .imagen-registro::before {
@@ -699,7 +701,7 @@ section {
 
 .formulario-registro {
   background-color: #fff;
-  padding: 2.5rem;
+  padding: 2rem; /* más denso */
   border-radius: var(--radio-borde-grande);
   box-shadow: var(--sombra-caja);
   color: var(--color-texto);
@@ -708,7 +710,7 @@ section {
 }
 
 .grupo-formulario {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.1rem; /* reduce separación vertical */
 }
 
 .grupo-formulario label {
@@ -1158,7 +1160,7 @@ section {
   }
 
   .imagen-registro {
-    max-height: 400px;
+    max-height: 400px; /* un poco más grande en una sola columna */
   }
 
   .contenedor-login {
