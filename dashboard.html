@@ -59,9 +59,6 @@
           </div>
         </div>
         <nav class="navegacion-principal">
-          <button class="boton-menu-movil" aria-label="Abrir menú">
-            <i class="fas fa-bars"></i>
-          </button>
           <ul class="lista-navegacion">
             <li><a href="/">Inicio</a></li>
             <li><a href="/blog">Blog</a></li>
@@ -128,39 +125,7 @@
       </section>
     </main>
 
-    <footer class="pie-pagina">
-      <div class="contenedor">
-        <div class="contenido-footer">
-          <div class="columna-footer redes-sociales">
-            <h3>Síguenos</h3>
-            <div class="iconos-sociales">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-youtube"></i></a>
-            </div>
-          </div>
-        </div>
-        <div class="copyright">
-          <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
-        </div>
-      </div>
-    </footer>
-
-    <script src="./views/MenuView.js"></script>
-    <script src="./views/ButtonView.js"></script>
-    <script src="./views/FormView.js"></script>
-    <script src="./utils/storage.js"></script>
-  <script src="./utils/auth.js"></script>
-  <script src="./utils/chatbot.js"></script>
-    <script>
-      (function(){
-        const K = {
-          recordatorios: 'recordatorios',
-          salud: 'salud',
-          alimentacion: 'alimentacion'
-        };
-
+    <!-- Footer removido -->
         function on(el, ev, cb){ el && el.addEventListener(ev, cb); }
         function h(tag, attrs={}, children=[]) {
           const el = document.createElement(tag);

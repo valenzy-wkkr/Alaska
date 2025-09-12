@@ -169,7 +169,9 @@ try {
     res.sendFile(path.join(__dirname, 'login.html'));
   });
   app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dashboard.html'));
+    // Servir versión protegida en PHP si se ejecuta con un servidor capaz de procesar PHP;
+    // si no, fallback a HTML no existe ya, por lo que se sugiere levantar entorno PHP.
+    res.sendFile(path.join(__dirname, 'dashboard.php'));
   });
 
   // Endpoints de ejemplo para API
@@ -419,7 +421,7 @@ try {
   if (pathname === '/blog') pathname = '/blog.html';
   if (pathname === '/contacto') pathname = '/contacto.html';
   if (pathname === '/login') pathname = '/login.html';
-  if (pathname === '/dashboard') pathname = '/dashboard.html';
+  if (pathname === '/dashboard') pathname = '/dashboard.php';
 
     // Evitar path traversal
     const safePath = path.normalize(path.join(__dirname, pathname)).replace(/\\/g, '/');

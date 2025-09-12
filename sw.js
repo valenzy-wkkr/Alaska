@@ -1,6 +1,6 @@
 const CACHE_NAME = 'alaska-cache-v2';
 const ASSETS = [
-  '/', '/index.html', '/blog.html', '/contacto.html', '/login.html', '/dashboard.html',
+  '/', '/index.html', '/blog.html', '/contacto.html', '/login.html',
   '/style.css', '/style-adicional.css',
   '/app.js', '/utils/auth.js', '/utils/storage.js', '/utils/chatbot.js',
   '/views/MenuView.js', '/views/ButtonView.js', '/views/FormView.js',

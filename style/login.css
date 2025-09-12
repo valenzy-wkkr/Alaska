@@ -10,55 +10,26 @@ body {
   min-height: 100vh;
 }
 
-main {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem 1rem;
-  background-color: #fff;
-}
-
-.login-container {
+/* Botón de login sobrio (verde institucional) */
+.btn-login {
   width: 100%;
-  max-width: 400px;
-  padding: 2.5rem;
-  background-color: #fff;
-  border-radius: var(--radio-borde-grande);
-  box-shadow: var(--sombra-caja);
-  animation: fadeIn 0.8s ease-in-out;
-  /* Mejorado el borde con gradiente y efectos visuales */
-  border: 2px solid transparent;
-  background-image: linear-gradient(white, white),
-    linear-gradient(135deg, var(--color-primario), var(--color-acento));
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  position: relative;
-  overflow: hidden;
+  padding: 0.95rem 1rem;
+  background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-oscuro) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transicion);
+  letter-spacing: .25px;
+  box-shadow: 0 4px 14px -4px rgba(0,0,0,.35);
 }
-
-/* Añadido efecto de brillo sutil */
-.login-container::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(
-    135deg,
-    var(--color-primario),
-    var(--color-acento)
-  );
-  border-radius: var(--radio-borde-grande);
-  z-index: -1;
-  opacity: 0.1;
-  transition: opacity 0.3s ease;
+.btn-login:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px -8px rgba(0,0,0,.45);
 }
-
-.login-container:hover::before {
-  opacity: 0.2;
-}
+.btn-login:active { transform: translateY(-1px); }
 
 .login-container h2 {
   text-align: center;
@@ -253,55 +224,4 @@ main {
   }
 }
 
-.inicial-circulo {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 35px !important;
-  height: 35px !important;
-  min-width: 35px !important;
-  min-height: 35px !important;
-  border-radius: 50% !important;
-  background-color: var(--color-acento) !important;
-  color: white !important;
-  padding: 0 !important;
-  margin: 0 8px !important;
-  font-weight: 600 !important;
-  font-size: 1rem !important;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
-  box-shadow: 0 2px 8px rgba(255, 112, 67, 0.4) !important;
-  text-decoration: none !important;
-  line-height: 1 !important;
-  border: 2px solid rgba(255, 255, 255, 0.8) !important;
-  box-sizing: border-box !important;
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.inicial-circulo:hover {
-  background-color: rgba(255, 112, 67, 0.9) !important;
-  color: white !important;
-  transform: translateY(-2px) scale(1.08) !important;
-  box-shadow: 0 4px 15px rgba(255, 112, 67, 0.6) !important;
-  border-color: rgba(255, 255, 255, 1) !important;
-}
-
-.inicial-circulo::before {
-  content: "";
-  position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 20%;
-  height: 20%;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  opacity: 0;
-}
-
-.inicial-circulo:hover::before {
-  width: 70%;
-  height: 70%;
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.2);
-}
+/* Avatar inicial usa la versión global (style.css) */

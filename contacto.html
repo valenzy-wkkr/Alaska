@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contacto - Alaska Cuidado de Mascotas</title>
+    <script>/* Pre-aplicar tema */(function(){try{var s=localStorage.getItem('theme');if(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches){s='dark';}if(s){document.documentElement.setAttribute('data-theme',s);} }catch(e){}})();</script>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="style/usuario.css">
     <link
@@ -33,9 +34,6 @@
             </div>
         </div>
         <nav class="navegacion-principal">
-            <button class="boton-menu-movil" aria-label="Abrir menú">
-                <i class="fas fa-bars"></i>
-            </button>
             <ul class="lista-navegacion">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="index.html#nosotros">Nosotros</a></li>
@@ -50,39 +48,7 @@
 
     <main>
         <!-- Banner de página -->
-        <section class="banner-pagina">
-            <div class="contenedor">
-                <h1>Contáctanos</h1>
-                <p>Estamos aquí para ayudarte con cualquier duda sobre el cuidado de tu mascota</p>
-            </div>
-        </section>
-
-        <!-- Sección de contacto -->
-        <section class="seccion-contacto">
-            <div class="contenedor">
-                <div class="contenedor-contacto">
-                    <div class="info-contacto-pagina">
-                        <h2>Información de Contacto</h2>
-                        <p>Estamos disponibles para ayudarte con cualquier consulta sobre nuestros servicios o para brindarte asesoramiento sobre el cuidado de tu mascota.</p>
-                        
-                        <div class="detalles-contacto">
-                            <div class="detalle">
-                                <div class="icono-contacto">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="texto-contacto">
-                                    <h3>Dirección</h3>
-                                    <p>Calle Principal 123, Ciudad</p>
-                                </div>
-                            </div>
-                            
-                            <div class="detalle">
-                                <div class="icono-contacto">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <div class="texto-contacto">
-                                    <h3>Teléfono</h3>
-                                    <p>+123 456 7890</p>
+        <!-- Footer removido -->
                                 </div>
                             </div>
                             
@@ -281,6 +247,7 @@
     </script>
 
     <!-- Scripts -->
+    <script src="utils/theme.js"></script>
     <script src="views/MenuView.js"></script>
     <script src="views/ButtonView.js"></script>
     <script src="views/FormView.js"></script>

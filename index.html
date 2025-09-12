@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Alaska - Cuidado de Mascotas</title>
+    <script>/* Pre-aplicar tema para evitar FOUC */(function(){try{var k='theme';var s=localStorage.getItem(k);if(!s){if(window.matchMedia('(prefers-color-scheme: dark)').matches){s='dark';}}if(s){document.documentElement.setAttribute('data-theme',s);} }catch(e){/* ignore */}})();</script>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="style/usuario.css">
     <link
@@ -34,9 +35,6 @@
             </div>
         </div>
         <nav class="navegacion-principal">
-            <button class="boton-menu-movil" aria-label="Abrir menú">
-                <i class="fas fa-bars"></i>
-            </button>
             <ul class="lista-navegacion">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#nosotros">Nosotros</a></li>
@@ -297,6 +295,7 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="utils/theme.js"></script>
     <script src="views/MenuView.js"></script>
     <script src="views/ButtonView.js"></script>
     <script src="views/FormView.js"></script>

@@ -4,6 +4,33 @@
  * estado de salud de mascotas y artículos del blog
  */
 
+// Datos embebidos (antes estaban inline en dashboard.php) como fallback si no existen archivos JSON
+const EMBED_PETS = [
+    { id: 1, name: 'Luna', species: 'perro', breed: 'Golden Retriever', age: 3, weight: 25, healthStatus: 'healthy', lastCheckup: '2024-01-15' },
+    { id: 2, name: 'Mittens', species: 'gato', breed: 'Siamés', age: 2, weight: 4.5, healthStatus: 'attention', lastCheckup: '2024-02-01' }
+];
+const EMBED_REMINDERS = [
+    { id: 1, title: 'Vacuna anual de Luna', date: '2024-03-15T10:00:00', type: 'vacuna', petId: 1, petName: 'Luna', notes: 'Vacuna contra la rabia y triple felina', urgent: false },
+    { id: 2, title: 'Cita veterinaria de Mittens', date: '2024-03-10T14:30:00', type: 'cita', petId: 2, petName: 'Mittens', notes: 'Revisión de rutina', urgent: true },
+    { id: 3, title: 'Medicamento para Luna', date: '2024-03-08T08:00:00', type: 'medicamento', petId: 1, petName: 'Luna', notes: 'Antiparasitario mensual', urgent: false }
+];
+const EMBED_APPOINTMENTS = [
+    { id: 1, petId: 1, petName: 'Luna', date: '2024-03-15T10:00:00', reason: 'Vacunación anual', status: 'programada' },
+    { id: 2, petId: 2, petName: 'Mittens', date: '2024-03-10T14:30:00', reason: 'Revisión de rutina', status: 'programada' }
+];
+const EMBED_BLOG_ARTICLES = [
+    {id:1,title:'Cómo cuidar la salud dental de tu mascota',excerpt:'La salud dental es fundamental para el bienestar general de tu mascota. Descubre los mejores consejos para mantener sus dientes limpios y sanos.',date:'2024-03-01',category:'Salud',author:'Dr. María González'},
+    {id:2,title:'Alimentación adecuada para perros senior',excerpt:'A medida que tu perro envejece, sus necesidades nutricionales cambian. Te contamos cómo adaptar su dieta para mantenerlo saludable.',date:'2024-02-28',category:'Nutrición',author:'Lic. Carlos Rodríguez'},
+    {id:3,title:'Ejercicios mentales para gatos',excerpt:'Los gatos también necesitan estimulación mental. Descubre juegos y actividades que mantendrán a tu felino activo y feliz.',date:'2024-02-25',category:'Bienestar',author:'Dra. Ana Martínez'},
+    {id:4,title:'Primeros auxilios para mascotas',excerpt:'Conoce las técnicas básicas de primeros auxilios que pueden salvar la vida de tu mascota en una emergencia.',date:'2024-02-20',category:'Emergencias',author:'Dr. Roberto Silva'}
+];
+const EMBED_ACTIVITY = [
+    { id: 1, type: 'appointment', text: 'Cita programada para Luna el 15 de marzo', time: 'Hace 2 horas', icon: 'fas fa-calendar-check' },
+    { id: 2, type: 'reminder', text: 'Recordatorio: Vacuna de Mittens mañana', time: 'Hace 4 horas', icon: 'fas fa-bell' },
+    { id: 3, type: 'pet', text: 'Nueva mascota agregada: Luna', time: 'Hace 1 día', icon: 'fas fa-paw' },
+    { id: 4, type: 'blog', text: 'Nuevo artículo publicado: Cuidado dental', time: 'Hace 2 días', icon: 'fas fa-newspaper' }
+];
+
 class Dashboard {
     constructor() {
         this.currentUser = null;
@@ -62,11 +89,12 @@ class Dashboard {
         const userData = localStorage.getItem('currentUser');
         if (userData) {
             this.currentUser = JSON.parse(userData);
-            this.updateUserDisplay();
         } else {
-            // Si no hay usuario, redirigir al login
-            window.location.href = 'index.html';
+            // fallback: usar el valor renderizado desde PHP en #userName
+            const nameEl = document.getElementById('userName');
+            this.currentUser = { name: nameEl ? nameEl.textContent.trim() : 'Usuario' };
         }
+        this.updateUserDisplay();
     }
 
     /**
@@ -91,8 +119,8 @@ class Dashboard {
                 this.loadBlogArticles(),
                 this.loadRecentActivity()
             ]);
-            
             this.renderDashboard();
+            this.updateStats();
         } catch (error) {
             console.error('Error cargando datos del dashboard:', error);
             this.showError('Error al cargar los datos del dashboard');
@@ -106,36 +134,10 @@ class Dashboard {
         try {
             // Cargar desde archivo JSON
             const response = await fetch('data/pets-data.json');
-            if (response.ok) {
-                this.pets = await response.json();
-            } else {
-                // Fallback a datos de ejemplo si no se puede cargar el archivo
-                this.pets = [
-                    {
-                        id: 1,
-                        name: 'Luna',
-                        species: 'perro',
-                        breed: 'Golden Retriever',
-                        age: 3,
-                        weight: 25,
-                        healthStatus: 'healthy',
-                        lastCheckup: '2024-01-15'
-                    },
-                    {
-                        id: 2,
-                        name: 'Mittens',
-                        species: 'gato',
-                        breed: 'Siamés',
-                        age: 2,
-                        weight: 4.5,
-                        healthStatus: 'attention',
-                        lastCheckup: '2024-02-01'
-                    }
-                ];
-            }
+            this.pets = response.ok ? await response.json() : [...EMBED_PETS];
         } catch (error) {
             console.error('Error cargando mascotas:', error);
-            this.pets = [];
+            this.pets = [...EMBED_PETS];
         }
     }
 
@@ -146,46 +148,10 @@ class Dashboard {
         try {
             // Cargar desde archivo JSON
             const response = await fetch('data/reminders-data.json');
-            if (response.ok) {
-                this.reminders = await response.json();
-            } else {
-                // Fallback a datos de ejemplo si no se puede cargar el archivo
-                this.reminders = [
-                    {
-                        id: 1,
-                        title: 'Vacuna anual de Luna',
-                        date: '2024-03-15T10:00:00',
-                        type: 'vacuna',
-                        petId: 1,
-                        petName: 'Luna',
-                        notes: 'Vacuna contra la rabia y triple felina',
-                        urgent: false
-                    },
-                    {
-                        id: 2,
-                        title: 'Cita veterinaria de Mittens',
-                        date: '2024-03-10T14:30:00',
-                        type: 'cita',
-                        petId: 2,
-                        petName: 'Mittens',
-                        notes: 'Revisión de rutina',
-                        urgent: true
-                    },
-                    {
-                        id: 3,
-                        title: 'Medicamento para Luna',
-                        date: '2024-03-08T08:00:00',
-                        type: 'medicamento',
-                        petId: 1,
-                        petName: 'Luna',
-                        notes: 'Antiparasitario mensual',
-                        urgent: false
-                    }
-                ];
-            }
+            this.reminders = response.ok ? await response.json() : [...EMBED_REMINDERS];
         } catch (error) {
             console.error('Error cargando recordatorios:', error);
-            this.reminders = [];
+            this.reminders = [...EMBED_REMINDERS];
         }
     }
 
@@ -195,27 +161,10 @@ class Dashboard {
     async loadAppointments() {
         try {
             // Simular carga desde API
-            this.appointments = [
-                {
-                    id: 1,
-                    petId: 1,
-                    petName: 'Luna',
-                    date: '2024-03-15T10:00:00',
-                    reason: 'Vacunación anual',
-                    status: 'programada'
-                },
-                {
-                    id: 2,
-                    petId: 2,
-                    petName: 'Mittens',
-                    date: '2024-03-10T14:30:00',
-                    reason: 'Revisión de rutina',
-                    status: 'programada'
-                }
-            ];
+            this.appointments = [...EMBED_APPOINTMENTS];
         } catch (error) {
             console.error('Error cargando citas:', error);
-            this.appointments = [];
+            this.appointments = [...EMBED_APPOINTMENTS];
         }
     }
 
@@ -226,40 +175,10 @@ class Dashboard {
         try {
             // Cargar desde archivo JSON
             const response = await fetch('data/blog-articles.json');
-            if (response.ok) {
-                this.blogArticles = await response.json();
-            } else {
-                // Fallback a datos de ejemplo si no se puede cargar el archivo
-                this.blogArticles = [
-                    {
-                        id: 1,
-                        title: 'Cómo cuidar la salud dental de tu mascota',
-                        excerpt: 'La salud dental es fundamental para el bienestar general de tu mascota. Descubre los mejores consejos para mantener sus dientes limpios y sanos.',
-                        date: '2024-03-01',
-                        category: 'Salud',
-                        author: 'Dr. María González'
-                    },
-                    {
-                        id: 2,
-                        title: 'Alimentación adecuada para perros senior',
-                        excerpt: 'A medida que tu perro envejece, sus necesidades nutricionales cambian. Te contamos cómo adaptar su dieta para mantenerlo saludable.',
-                        date: '2024-02-28',
-                        category: 'Nutrición',
-                        author: 'Lic. Carlos Rodríguez'
-                    },
-                    {
-                        id: 3,
-                        title: 'Ejercicios mentales para gatos',
-                        excerpt: 'Los gatos también necesitan estimulación mental. Descubre juegos y actividades que mantendrán a tu felino activo y feliz.',
-                        date: '2024-02-25',
-                        category: 'Bienestar',
-                        author: 'Dra. Ana Martínez'
-                    }
-                ];
-            }
+            this.blogArticles = response.ok ? await response.json() : [...EMBED_BLOG_ARTICLES];
         } catch (error) {
             console.error('Error cargando artículos del blog:', error);
-            this.blogArticles = [];
+            this.blogArticles = [...EMBED_BLOG_ARTICLES];
         }
     }
 
@@ -269,39 +188,10 @@ class Dashboard {
     async loadRecentActivity() {
         try {
             // Simular carga desde API
-            this.recentActivity = [
-                {
-                    id: 1,
-                    type: 'appointment',
-                    text: 'Cita programada para Luna el 15 de marzo',
-                    time: 'Hace 2 horas',
-                    icon: 'fas fa-calendar-check'
-                },
-                {
-                    id: 2,
-                    type: 'reminder',
-                    text: 'Recordatorio: Vacuna de Mittens mañana',
-                    time: 'Hace 4 horas',
-                    icon: 'fas fa-bell'
-                },
-                {
-                    id: 3,
-                    type: 'pet',
-                    text: 'Nueva mascota agregada: Luna',
-                    time: 'Hace 1 día',
-                    icon: 'fas fa-paw'
-                },
-                {
-                    id: 4,
-                    type: 'blog',
-                    text: 'Nuevo artículo publicado: Cuidado dental',
-                    time: 'Hace 2 días',
-                    icon: 'fas fa-newspaper'
-                }
-            ];
+            this.recentActivity = [...EMBED_ACTIVITY];
         } catch (error) {
             console.error('Error cargando actividad reciente:', error);
-            this.recentActivity = [];
+            this.recentActivity = [...EMBED_ACTIVITY];
         }
     }
 
@@ -677,7 +567,8 @@ class Dashboard {
      */
     showSuccess(message) {
         // Implementar notificación de éxito
-        console.log('Éxito:', message);
+    // Futuro: integrar sistema de toast unificado
+    console.log('Éxito:', message);
     }
 
     /**
@@ -685,7 +576,7 @@ class Dashboard {
      */
     showError(message) {
         // Implementar notificación de error
-        console.error('Error:', message);
+    console.error('Error:', message);
     }
 }
 

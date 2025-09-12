@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           ['/blog', './blog.html'],
           ['/contacto', './contacto.html'],
           ['/login', './login.html'],
-          ['/dashboard', './dashboard.html']
+          ['/dashboard', './dashboard.php']
         ]);
         // Alias y variantes comunes
         const aliasMap = new Map([

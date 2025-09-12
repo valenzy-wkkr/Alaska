@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog - Alaska Cuidado de Mascotas</title>
+    <script>/* Pre-aplicar tema para evitar FOUC */(function(){try{var k='theme';var s=localStorage.getItem(k);if(!s){if(window.matchMedia('(prefers-color-scheme: dark)').matches){s='dark';}}if(s){document.documentElement.setAttribute('data-theme',s);} }catch(e){}})();</script>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="style/blog.css" />
     <link rel="stylesheet" href="style/usuario.css">
@@ -18,7 +19,52 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" href="img/alaska-ico.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/alaska-ico.ico" type="image/x-icon">
+        <!-- Estilos específicos optimizados del blog (sobre-escritura ligera sin archivo nuevo) -->
+        <style>
+            .articulo-destacado{display:grid;grid-template-columns:clamp(260px,40%,520px) 1fr;gap:2rem;align-items:stretch;background:var(--surface-1);padding:1.75rem 1.75rem 1.9rem;border-radius:28px;box-shadow:0 8px 28px -10px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.25) inset;position:relative;overflow:hidden}
+            .articulo-destacado::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 18%,rgba(255,112,67,.28),transparent 65%);mix-blend-mode:overlay;opacity:.55;pointer-events:none;transition:opacity .6s ease}
+            .articulo-destacado:hover::before{opacity:.9}
+            .articulo-destacado .imagen-articulo{border-radius:20px;overflow:hidden;position:relative}
+            .articulo-destacado .imagen-articulo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .85s ease}
+            .articulo-destacado:hover .imagen-articulo img{transform:scale(1.06)}
+            .etiqueta-articulo{position:absolute;top:.85rem;left:.85rem;background:linear-gradient(135deg,var(--color-primario),var(--color-primario-oscuro));color:#fff;font-size:.65rem;letter-spacing:.5px;padding:.4rem .7rem;border-radius:24px;font-weight:600;text-transform:uppercase;box-shadow:0 4px 12px -4px rgba(0,0,0,.28)}
+            .grid-articulos{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.35rem;margin-top:2.5rem}
+            .articulo{background:var(--surface-1);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 18px -8px rgba(0,0,0,.18),0 0 0 1px rgba(255,255,255,.25) inset;position:relative;transition:transform .55s var(--transicion-cubic, cubic-bezier(.16,.84,.44,1)), box-shadow .55s ease}
+            .articulo:hover{transform:translateY(-6px);box-shadow:0 14px 34px -12px rgba(0,0,0,.32),0 4px 10px rgba(0,0,0,.18)}
+            .articulo .imagen-articulo{aspect-ratio:16/10;overflow:hidden;position:relative}
+            .articulo .imagen-articulo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .85s ease}
+            .articulo:hover .imagen-articulo img{transform:scale(1.08)}
+            .contenido-articulo{padding:1.05rem 1.05rem 1.15rem;display:flex;flex-direction:column;gap:.65rem}
+            .meta-articulo{display:flex;flex-wrap:wrap;gap:.6rem;font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--color-texto-claro)}
+            .meta-articulo span{display:inline-flex;align-items:center;gap:.35rem;background:var(--fondo-claro);padding:.35rem .6rem;border-radius:40px;line-height:1}
+            .articulo-destacado .meta-articulo span{background:rgba(0,0,0,.06)}
+            .enlace-articulo{margin-top:auto;font-weight:600;font-size:.85rem;text-decoration:none;color:var(--color-primario);display:inline-flex;align-items:center;gap:.4rem;position:relative}
+            .enlace-articulo::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:currentColor;transition:width .45s ease}
+            .enlace-articulo:hover::after{width:100%}
+            .barra-lateral .widget{background:var(--surface-1);padding:1.4rem 1.3rem 1.55rem;border-radius:22px;box-shadow:0 4px 18px -8px rgba(0,0,0,.16),0 0 0 1px rgba(255,255,255,.25) inset;position:relative;overflow:hidden}
+            .barra-lateral .widget::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(255,112,67,.18),transparent 65%);mix-blend-mode:overlay;opacity:.55;pointer-events:none}
+            .widget h3{margin:0 0 1rem;font-size:1.05rem;letter-spacing:.5px;text-transform:uppercase;font-weight:600;position:relative;padding-left:.5rem}
+            .widget h3::before{content:"";position:absolute;left:0;top:50%;width:4px;height:20px;border-radius:4px;transform:translateY(-50%);background:linear-gradient(var(--color-primario),var(--color-primario-oscuro))}
+            .widget-categorias ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.6rem}
+            .widget-categorias a{--cat-bg:var(--fondo-claro);display:inline-flex;align-items:center;gap:.45rem;padding:.5rem .85rem .5rem .75rem;font-size:.63rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;border-radius:40px;background:var(--cat-bg);color:var(--color-texto);text-decoration:none;position:relative;line-height:1;border:1px solid rgba(0,0,0,.06);transition:background .45s ease, transform .45s cubic-bezier(.16,.84,.44,1),box-shadow .45s}
+            .widget-categorias a span.badge{background:linear-gradient(135deg,var(--color-primario),var(--color-primario-oscuro));color:#fff;font-size:.55rem;padding:.28rem .5rem;border-radius:24px;font-weight:600;line-height:1;box-shadow:0 2px 6px -2px rgba(0,0,0,.3)}
+            .widget-categorias a:hover{transform:translateY(-4px);box-shadow:0 10px 26px -10px rgba(0,0,0,.3);background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,255,255,.75))}
+            .widget-categorias a.active,.widget-categorias a.activa{background:linear-gradient(135deg,var(--color-primario),var(--color-primario-oscuro));color:#fff;box-shadow:0 8px 24px -10px rgba(0,0,0,.4)}
+            .widget-categorias a.active span.badge,.widget-categorias a.activa span.badge{background:linear-gradient(135deg,#fff,#eee);color:var(--color-primario-oscuro);box-shadow:0 2px 8px -2px rgba(0,0,0,.35)}
+            .paginacion{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:2.5rem;justify-content:center}
+            .paginacion .pagina,.paginacion .pagina.anterior,.paginacion .pagina.siguiente{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:14px;background:var(--surface-1);box-shadow:0 4px 14px -6px rgba(0,0,0,.16),0 0 0 1px rgba(255,255,255,.25) inset;text-decoration:none;color:var(--color-texto);font-weight:600;font-size:.9rem;transition:all .5s var(--transicion-cubic, cubic-bezier(.16,.84,.44,1))}
+            .paginacion .pagina:hover{transform:translateY(-4px);box-shadow:0 12px 26px -10px rgba(0,0,0,.28)}
+            .paginacion .pagina.activa,.paginacion .pagina.activa:hover{background:linear-gradient(135deg,var(--color-primario),var(--color-primario-oscuro));color:#fff;box-shadow:0 10px 30px -10px rgba(0,0,0,.42)}
+            .pagina-ellipsis{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;color:var(--color-texto-claro);font-weight:600}
+            .no-results h3{font-size:1.3rem}
+            .no-results p{font-size:.9rem}
+            .articulos-populares img{transition:transform .7s ease}
+            .articulos-populares .imagen-popular{overflow:hidden;border-radius:12px}
+            .articulos-populares .articulo-popular:hover img{transform:scale(1.08)}
+            @media (max-width:920px){.articulo-destacado{grid-template-columns:1fr;padding:1.4rem 1.3rem 1.55rem}.grid-articulos{margin-top:2rem}}
+            @media (max-width:560px){.meta-articulo span{font-size:.5rem;padding:.33rem .55rem}.widget-categorias a{font-size:.5rem;padding:.45rem .7rem}.enlace-articulo{font-size:.75rem}}
+        </style>
   </head>
 
   
@@ -35,9 +81,6 @@
             </div>
         </div>
         <nav class="navegacion-principal">
-            <button class="boton-menu-movil" aria-label="Abrir menú">
-                <i class="fas fa-bars"></i>
-            </button>
             <ul class="lista-navegacion">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="index.html#nosotros">Nosotros</a></li>
@@ -65,126 +108,14 @@
             <div class="contenedor">
                 <div class="contenedor-blog">
                     <div class="articulos-blog">
-                        <!-- Artículo destacado -->
-                        <article class="articulo-destacado">
-                            <div class="imagen-articulo">
-                                <img src="img/blog-destacado.jpg" alt="Artículo destacado">
-                                <div class="etiqueta-articulo">Destacado</div>
-                            </div>
-                            <div class="contenido-articulo">
-                                <div class="meta-articulo">
-                                    <span><i class="fas fa-calendar"></i> 15 Mayo, 2024</span>
-                                    <span><i class="fas fa-user"></i> Dr. Martínez</span>
-                                    <span><i class="fas fa-folder"></i> Salud</span>
-                                </div>
-                                <h2>10 Señales de que tu mascota necesita atención veterinaria urgente</h2>
-                                <p>Conocer las señales de alarma puede marcar la diferencia entre la vida y la muerte de tu mascota. En este artículo, te explicamos los síntomas que nunca debes ignorar y cuándo debes acudir inmediatamente al veterinario.</p>
-                                <a href="blog-detalle.html" class="boton-secundario" style="color: #000">Leer más</a>
-                            </div>
-                        </article>
+                        <!-- Artículo destacado dinámico -->
+                        <article class="articulo-destacado" id="featured-article" aria-label="Artículo destacado"></article>
 
                         <!-- Artículos regulares -->
-                        <div class="grid-articulos">
-                            <article class="articulo">
-                                <div class="imagen-articulo">
-                                    <img src="img/Alimentacion.jpg" alt="Alimentación de mascotas">
-                                </div>
-                                <div class="contenido-articulo">
-                                    <div class="meta-articulo">
-                                        <span><i class="fas fa-calendar"></i> 10 Mayo, 2024</span>
-                                        <span><i class="fas fa-folder"></i> Alimentación</span>
-                                    </div>
-                                    <h3>Guía completa de alimentación para perros según su edad</h3>
-                                    <p>La alimentación adecuada es fundamental para la salud de tu perro. Descubre qué tipo de alimento necesita tu mascota según su etapa de vida.</p>
-                                    <a href="blog-detalle.html" class="enlace-articulo">Leer más <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </article>
-
-                            <article class="articulo">
-                                <div class="imagen-articulo">
-                                    <img src="img/entrenamientoMacotas.jpg" alt="Entrenamiento de mascotas">
-                                </div>
-                                <div class="contenido-articulo">
-                                    <div class="meta-articulo">
-                                        <span><i class="fas fa-calendar"></i> 5 Mayo, 2024</span>
-                                        <span><i class="fas fa-folder"></i> Entrenamiento</span>
-                                    </div>
-                                    <h3>5 Técnicas efectivas para entrenar a tu cachorro</h3>
-                                    <p>El entrenamiento temprano es clave para tener un perro bien educado. Aprende estas técnicas simples pero efectivas para entrenar a tu cachorro.</p>
-                                    <a href="blog-detalle.html" class="enlace-articulo">Leer más <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </article>
-
-                            <article class="articulo">
-                                <div class="imagen-articulo">
-                                    <img src="img/cuidaddoGatos.jpg" alt="Cuidado de gatos">
-                                </div>
-                                <div class="contenido-articulo">
-                                    <div class="meta-articulo">
-                                        <span><i class="fas fa-calendar"></i> 28 Abril, 2024</span>
-                                        <span><i class="fas fa-folder"></i> Gatos</span>
-                                    </div>
-                                    <h3>Cómo entender el lenguaje corporal de tu gato</h3>
-                                    <p>Los gatos se comunican principalmente a través de su lenguaje corporal. Aprende a interpretar las señales que tu felino te está enviando.</p>
-                                    <a href="blog-detalle.html" class="enlace-articulo">Leer más <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </article>
-
-                            <article class="articulo">
-                                <div class="imagen-articulo">
-                                    <img src="img/mascotasExoticas.jpg" alt="Mascotas exóticas">
-                                </div>
-                                <div class="contenido-articulo">
-                                    <div class="meta-articulo">
-                                        <span><i class="fas fa-calendar"></i> 20 Abril, 2024</span>
-                                        <span><i class="fas fa-folder"></i> Mascotas Exóticas</span>
-                                    </div>
-                                    <h3>Cuidados básicos para mascotas exóticas</h3>
-                                    <p>Las mascotas exóticas requieren cuidados especiales. Descubre lo que necesitas saber si tienes o estás pensando en adoptar una mascota no convencional.</p>
-                                    <a href="blog-detalle.html" class="enlace-articulo">Leer más <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </article>
-
-                            <article class="articulo">
-                                <div class="imagen-articulo">
-                                    <img src="img/salud.jpg" alt="Salud de mascotas">
-                                </div>
-                                <div class="contenido-articulo">
-                                    <div class="meta-articulo">
-                                        <span><i class="fas fa-calendar"></i> 15 Abril, 2024</span>
-                                        <span><i class="fas fa-folder"></i> Salud</span>
-                                    </div>
-                                    <h3>Calendario de vacunación para perros y gatos</h3>
-                                    <p>Mantener al día las vacunas de tu mascota es esencial para su salud. Conoce el calendario de vacunación recomendado para perros y gatos.</p>
-                                    <a href="blog-detalle.html" class="enlace-articulo">Leer más <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </article>
-
-                            <article class="articulo">
-                                <div class="imagen-articulo">
-                                    <img src="img/Adopcion.jpg" alt="Adopción de mascotas">
-                                </div>
-                                <div class="contenido-articulo">
-                                    <div class="meta-articulo">
-                                        <span><i class="fas fa-calendar"></i> 10 Abril, 2024</span>
-                                        <span><i class="fas fa-folder"></i> Adopción</span>
-                                    </div>
-                                    <h3>Guía para adoptar una mascota responsablemente</h3>
-                                    <p>Adoptar una mascota es una decisión importante. Te ofrecemos una guía completa para que la adopción sea responsable y exitosa.</p>
-                                    <a href="blog-detalle.html" class="enlace-articulo">Leer más <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </article>
-                        </div>
+                        <div class="grid-articulos" aria-live="polite"></div>
 
                         <!-- Paginación -->
-                        <div class="paginacion">
-                            <a href="#" class="pagina activa">1</a>
-                            <a href="#" class="pagina">2</a>
-                            <a href="#" class="pagina">3</a>
-                            <a href="#" class="pagina siguiente">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </div>
+                        <div class="paginacion" aria-label="Paginación"></div>
                     </div>
 
                     <!-- Barra lateral -->
@@ -201,15 +132,7 @@
                         <!-- Categorías -->
                         <div class="widget widget-categorias">
                             <h3>Categorías</h3>
-                            <ul>
-                                <li><a href="#">Salud <span>(12)</span></a></li>
-                                <li><a href="#">Alimentación <span>(8)</span></a></li>
-                                <li><a href="#">Entrenamiento <span>(6)</span></a></li>
-                                <li><a href="#">Gatos <span>(5)</span></a></li>
-                                <li><a href="#">Perros <span>(10)</span></a></li>
-                                <li><a href="#">Mascotas Exóticas <span>(3)</span></a></li>
-                                <li><a href="#">Adopción <span>(4)</span></a></li>
-                            </ul>
+                            <ul class="lista-categorias" aria-label="Filtros de categorías"></ul>
                         </div>
 
                         <!-- Artículos populares -->
@@ -218,7 +141,7 @@
                             <div class="articulos-populares">
                                 <div class="articulo-popular">
                                     <div class="imagen-popular">
-                                        <img src="img/popular1.jpg" alt="Artículo popular"> /**✅**/ 
+                                        <img src="img/popular1.jpg" alt="Artículo popular">
                                     </div>
                                     <div class="info-popular">
                                         <h4><a href="#">Los mejores juguetes para estimular a tu gato</a></h4>
@@ -228,7 +151,7 @@
 
                                 <div class="articulo-popular">
                                     <div class="imagen-popular">
-                                        <img src="img/popular2.jpg" alt="Artículo popular"> /**✅**/ 
+                                        <img src="img/popular2.jpg" alt="Artículo popular">
                                     </div>
                                     <div class="info-popular">
                                         <h4><a href="#">Cómo prevenir la ansiedad por separación en perros</a></h4>
@@ -238,7 +161,7 @@
 
                                 <div class="articulo-popular">
                                     <div class="imagen-popular">
-                                        <img src="img/popular3.jpg" alt="Artículo popular"> /**✅**/ 
+                                        <img src="img/popular3.jpg" alt="Artículo popular">
                                     </div>
                                     <div class="info-popular">
                                         <h4><a href="#">Beneficios de la esterilización en mascotas</a></h4>
@@ -291,47 +214,163 @@
         </section>
     </main>
 
-    <!-- Pie de página -->
-    <footer class="pie-pagina">
-        <div class="contenedor">
-            <div class="contenido-footer">
-                <div class="columna-footer info-contacto">
-                    <h3>Contacto</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Ciudad</p>
-                    <p><i class="fas fa-phone"></i> +123 456 7890</p>
-                    <p><i class="fas fa-envelope"></i> info@alaska-mascotas.com</p>
-                </div>
-                <div class="columna-footer enlaces-rapidos">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="index.html#nosotros">Nosotros</a></li>
-                        <li><a href="contacto.html">Contacto</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="columna-footer redes-sociales">
-                    <h3>Síguenos</h3>
-                    <div class="iconos-sociales">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer removido (activo sólo en index) -->
 
     <!-- Scripts -->
+    <script src="utils/theme.js"></script>
     <script src="views/MenuView.js"></script>
     <script src="views/ButtonView.js"></script>
     <script src="views/FormView.js"></script>
     <script src="js/app.js"></script>
-    <script src="js/blog.js"></script>
+    <!-- ============================= -->
+    <!-- JavaScript del Blog (Integrado) -->
+    <!-- Combina la lógica previamente en js/blog.js + datos JSON embebidos -->
+    <script>
+    /* =============================================
+       BLOQUE: Datos del Blog (antes: data/blog-articles.json)
+       ============================================= */
+    const BLOG_ARTICLES = [
+      {"id":1,"title":"Cómo cuidar la salud dental de tu mascota","excerpt":"La salud dental es fundamental para el bienestar general de tu mascota. Descubre los mejores consejos para mantener sus dientes limpios y sanos.","content":"La salud dental es uno de los aspectos más importantes del cuidado de tu mascota que a menudo se pasa por alto. Los problemas dentales pueden causar dolor, infecciones y afectar la salud general de tu compañero peludo.\n\nEn este artículo te compartimos los mejores consejos para mantener la salud dental de tu mascota:\n\n1. Cepillado regular\n2. Juguetes dentales\n3. Dieta adecuada\n4. Revisiones veterinarias\n5. Detección temprana de problemas","date":"2024-03-01","category":"Salud","author":"Dr. María González","image":"img/dental-care.jpg","tags":["salud","dental","cuidado","mascotas"]},
+      {"id":2,"title":"Alimentación adecuada para perros senior","excerpt":"A medida que tu perro envejece, sus necesidades nutricionales cambian. Te contamos cómo adaptar su dieta para mantenerlo saludable.","content":"Los perros senior tienen necesidades nutricionales específicas que deben ser atendidas para mantener su calidad de vida. A partir de los 7 años, los perros comienzan a experimentar cambios en su metabolismo y requerimientos nutricionales.\n\nAspectos importantes a considerar:\n\n- Proteínas de alta calidad\n- Ácidos grasos omega-3\n- Antioxidantes\n- Fibra dietética\n- Vitaminas y minerales específicos","date":"2024-02-28","category":"Nutrición","author":"Lic. Carlos Rodríguez","image":"img/senior-dog.jpg","tags":["nutrición","perros","senior","alimentación"]},
+      {"id":3,"title":"Ejercicios mentales para gatos","excerpt":"Los gatos también necesitan estimulación mental. Descubre juegos y actividades que mantendrán a tu felino activo y feliz.","content":"Los gatos son animales inteligentes que necesitan estimulación mental para mantenerse felices y saludables. El aburrimiento puede llevar a problemas de comportamiento y obesidad.\n\nActividades recomendadas:\n\n- Juegos de búsqueda\n- Puzzles de comida\n- Juguetes interactivos\n- Entrenamiento con clicker\n- Tiempo de juego diario","date":"2024-02-25","category":"Bienestar","author":"Dra. Ana Martínez","image":"img/cat-play.jpg","tags":["gatos","bienestar","ejercicios","estimulación"]},
+      {"id":4,"title":"Primeros auxilios para mascotas","excerpt":"Conoce las técnicas básicas de primeros auxilios que pueden salvar la vida de tu mascota en una emergencia.","content":"Saber qué hacer en caso de emergencia puede marcar la diferencia entre la vida y la muerte de tu mascota. Es fundamental conocer las técnicas básicas de primeros auxilios.\n\nSituaciones comunes:\n\n- Heridas y sangrado\n- Fracturas\n- Envenenamiento\n- Ahogamiento\n- Convulsiones\n\nRecuerda siempre consultar con un veterinario después de aplicar primeros auxilios.","date":"2024-02-20","category":"Emergencias","author":"Dr. Roberto Silva","image":"img/first-aid.jpg","tags":["emergencias","primeros auxilios","salud","veterinaria"]},
+      {"id":5,"title":"Cómo socializar a tu cachorro correctamente","excerpt":"La socialización temprana es crucial para el desarrollo de un perro equilibrado. Aprende las mejores técnicas.","content":"La socialización es un proceso fundamental en el desarrollo de tu cachorro que determinará su comportamiento futuro. El período crítico de socialización ocurre entre las 3 y 16 semanas de edad.\n\nAspectos importantes:\n\n- Exposición gradual a diferentes personas\n- Interacción con otros perros\n- Familiarización con diferentes entornos\n- Manejo de situaciones nuevas\n- Refuerzo positivo","date":"2024-02-15","category":"Entrenamiento","author":"Lic. Patricia López","image":"img/puppy-socialization.jpg","tags":["entrenamiento","cachorros","socialización","comportamiento"]},
+      {"id":6,"title":"Beneficios de la esterilización en mascotas","excerpt":"La esterilización no solo previene embarazos no deseados, sino que también tiene importantes beneficios para la salud.","content":"La esterilización es una de las decisiones más importantes que puedes tomar por la salud de tu mascota. Además de prevenir embarazos no deseados, ofrece múltiples beneficios para la salud.\n\nBeneficios para hembras:\n- Previene infecciones uterinas\n- Reduce el riesgo de cáncer de mama\n- Elimina el celo\n\nBeneficios para machos:\n- Reduce comportamientos agresivos\n- Previene cáncer testicular\n- Disminuye el marcaje territorial","date":"2024-02-10","category":"Salud","author":"Dra. Carmen Ruiz","image":"img/spay-neuter.jpg","tags":["esterilización","salud","prevención","cuidado"]}
+    ];
+
+    /* =============================================
+       BLOQUE: Clase Blog (adaptada de js/blog.js)
+       - Se eliminó fetch externo; usa BLOG_ARTICLES.
+       - Se corrigió error en createArticleHTML (variable 'article.image').
+       ============================================= */
+        class Blog {
+            constructor(){
+                this.articles=[]; this.filteredArticles=[]; this.featured=null;
+                this.currentPage=1; this.articlesPerPage=6; this.currentCategory='all'; this.searchTerm='';
+                this.categoryContainer=null; this.gridContainer=null; this.featuredContainer=null; this.paginationContainer=null;
+                this.init();
+            }
+            init(){
+                this.cacheDOM();
+                this.loadArticles();
+                this.buildCategories();
+                this.renderFeaturedArticle();
+                this.renderArticles();
+                this.updatePagination();
+                this.setupEventListeners();
+                this.setupSearch();
+                this.setupAnimations();
+            }
+            cacheDOM(){
+                this.categoryContainer=document.querySelector('.lista-categorias');
+                this.gridContainer=document.querySelector('.grid-articulos');
+                this.featuredContainer=document.getElementById('featured-article');
+                this.paginationContainer=document.querySelector('.paginacion');
+            }
+            loadArticles(){
+                this.articles=[...BLOG_ARTICLES].sort((a,b)=> new Date(b.date)-new Date(a.date));
+                this.filteredArticles=[...this.articles];
+                this.featured=this.articles[0]||null;
+            }
+            buildCategories(){
+                if(!this.categoryContainer) return;
+                const counts=this.articles.reduce((acc,a)=>{ const c=a.category.trim(); acc[c]=(acc[c]||0)+1; return acc; },{});
+                const entries=Object.entries(counts).sort((a,b)=> a[0].localeCompare(b[0],'es'));
+                const total=this.articles.length;
+                const html=[`<li><a href="#" data-category="all" class="active">Todos <span class="badge">${total}</span></a></li>`]
+                    .concat(entries.map(([cat,count])=> `<li><a href="#" data-category="${cat.toLowerCase()}">${cat} <span class="badge">${count}</span></a></li>`)).join('');
+                this.categoryContainer.innerHTML=html;
+            }
+            renderFeaturedArticle(){
+                if(!this.featuredContainer || !this.featured) return;
+                const f=this.featured; const date=this.formatDate(new Date(f.date));
+                this.featuredContainer.innerHTML=`<div class="imagen-articulo">\n          <img src="${f.image}" alt="${f.title}" loading="lazy" onerror="this.onerror=null;this.src='img/blog-destacado.jpg'">\n          <div class="etiqueta-articulo">Destacado</div>\n        </div>\n        <div class="contenido-articulo">\n          <div class="meta-articulo">\n            <span><i class="fas fa-calendar"></i> ${date}</span>\n            <span><i class="fas fa-user"></i> ${f.author}</span>\n            <span><i class="fas fa-folder"></i> ${f.category}</span>\n          </div>\n          <h2>${f.title}</h2>\n          <p>${f.excerpt}</p>\n          <a href="blog-detalle.html?id=${f.id}" class="enlace-articulo">Leer más <i class="fas fa-arrow-right"></i></a>\n        </div>`;
+            }
+            renderArticles(){
+                if(!this.gridContainer) return;
+                const start=(this.currentPage-1)*this.articlesPerPage;
+                const end=start+this.articlesPerPage;
+                const slice=this.filteredArticles.slice(start,end);
+                if(slice.length===0){
+                    this.gridContainer.innerHTML=`<div class="no-results" style="grid-column:1/-1;text-align:center;padding:3rem">\n            <i class='fas fa-search' style='font-size:3rem;color:var(--color-texto-claro);margin-bottom:1rem;'></i>\n            <h3 style='color:var(--color-texto-claro);margin-bottom:.5rem;'>No se encontraron artículos</h3>\n            <p style='color:var(--color-texto-claro);'>Intenta con otros términos de búsqueda o categorías</p>\n          </div>`; return; }
+                this.gridContainer.innerHTML=slice.map(a=> this.createArticleHTML(a)).join('');
+                // Re-bind article link animations
+                this.gridContainer.querySelectorAll('.enlace-articulo').forEach(l=> l.addEventListener('click',e=> this.handleArticleClick(e)));
+            }
+            createArticleHTML(a){
+                const date=this.formatDate(new Date(a.date));
+                return `<article class="articulo" data-id="${a.id}" data-category="${a.category.toLowerCase()}">\n          <div class="imagen-articulo">\n            <img src="${a.image}" alt="${a.title}" loading="lazy" onerror="this.onerror=null;this.src='img/perro-feliz.jpg'">\n          </div>\n          <div class="contenido-articulo">\n            <div class="meta-articulo">\n              <span><i class='fas fa-calendar'></i> ${date}</span>\n              <span><i class='fas fa-folder'></i> ${a.category}</span>\n            </div>\n            <h3>${a.title}</h3>\n            <p>${a.excerpt}</p>\n            <a href="blog-detalle.html?id=${a.id}" class="enlace-articulo">Leer más <i class='fas fa-arrow-right'></i></a>\n          </div>\n        </article>`;
+            }
+            setupEventListeners(){
+                const searchForm=document.querySelector('.formulario-busqueda');
+                if(searchForm) searchForm.addEventListener('submit',e=> this.handleSearch(e));
+                // Delegación categorías
+                if(this.categoryContainer){
+                    this.categoryContainer.addEventListener('click',e=>{ const link=e.target.closest('a[data-category]'); if(!link) return; e.preventDefault(); this.handleCategoryFilter(link); });
+                }
+                if(this.paginationContainer){
+                    this.paginationContainer.addEventListener('click',e=>{ const link=e.target.closest('.pagina[data-page]'); if(!link) return; e.preventDefault(); this.handlePagination(link); });
+                }
+                const subscriptionForm=document.querySelector('.formulario-suscripcion');
+                if(subscriptionForm) subscriptionForm.addEventListener('submit',e=> this.handleSubscription(e));
+                window.addEventListener('scroll',()=> this.handleScroll());
+                // Destacado click anim
+                if(this.featuredContainer){ this.featuredContainer.addEventListener('click',e=>{ const link=e.target.closest('a.enlace-articulo'); if(link) this.handleArticleClick(e); }); }
+            }
+            handleSearch(e){ e.preventDefault(); const input=e.target.querySelector('input'); this.searchTerm=(input?.value||'').toLowerCase().trim(); this.filterArticles(); }
+            handleCategoryFilter(link){
+                const category=link.getAttribute('data-category')||'all';
+                this.currentCategory=category; this.currentPage=1;
+                this.categoryContainer.querySelectorAll('a').forEach(a=> a.classList.remove('active'));
+                link.classList.add('active');
+                this.filterArticles();
+            }
+            filterArticles(){
+                this.filteredArticles=this.articles.filter(a=>{
+                    const s=this.searchTerm==='' || a.title.toLowerCase().includes(this.searchTerm) || a.excerpt.toLowerCase().includes(this.searchTerm) || a.content.toLowerCase().includes(this.searchTerm);
+                    const c=this.currentCategory==='all' || a.category.toLowerCase()===this.currentCategory;
+                    return s && c;
+                });
+                this.currentPage=1; this.renderArticles(); this.updatePagination(); this.updateResultsCount();
+            }
+            updatePagination(){
+                if(!this.paginationContainer) return;
+                const totalPages=Math.ceil(this.filteredArticles.length/this.articlesPerPage);
+                if(totalPages<=1){ this.paginationContainer.style.display='none'; return; }
+                this.paginationContainer.style.display='flex';
+                let html='';
+                if(this.currentPage>1) html+=`<a href="#" class="pagina anterior" data-page="${this.currentPage-1}" aria-label="Página anterior"><i class="fas fa-chevron-left"></i></a>`;
+                for(let i=1;i<=totalPages;i++){
+                    if(i===1 || i===totalPages || (i>=this.currentPage-1 && i<=this.currentPage+1)){
+                        html+=`<a href="#" class="pagina ${i===this.currentPage?'activa':''}" data-page="${i}" aria-label="Página ${i}">${i}</a>`;
+                    } else if(i===this.currentPage-2 || i===this.currentPage+2){
+                        html+='<span class="pagina-ellipsis" aria-hidden="true">...</span>';
+                    }
+                }
+                if(this.currentPage<totalPages) html+=`<a href="#" class="pagina siguiente" data-page="${this.currentPage+1}" aria-label="Página siguiente"><i class="fas fa-chevron-right"></i></a>`;
+                this.paginationContainer.innerHTML=html;
+            }
+            handlePagination(link){ const page=parseInt(link.getAttribute('data-page')); if(page && page!==this.currentPage){ this.currentPage=page; this.renderArticles(); this.updatePagination(); this.scrollToTop(); } }
+            updateResultsCount(){ const rc=document.querySelector('.results-count'); if(rc) rc.textContent=`${this.filteredArticles.length} artículos encontrados`; }
+            handleSubscription(e){ e.preventDefault(); const email=e.target.querySelector('input[type="email"]').value; if(this.validateEmail(email)){ this.showSuccess('¡Gracias por suscribirte!'); e.target.reset(); } else { this.showError('Email no válido'); } }
+            handleArticleClick(e){ const article=e.target.closest('.articulo, .articulo-destacado'); if(article){ article.style.transform='scale(0.97)'; setTimeout(()=> article.style.transform='',140); } }
+            setupAnimations(){
+                const observer=new IntersectionObserver(entries=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.style.opacity='1'; entry.target.style.transform='translateY(0)'; } }); },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+                document.querySelectorAll('.articulo, .widget, #featured-article').forEach(el=>{ el.style.opacity='0'; el.style.transform='translateY(30px)'; el.style.transition='opacity .6s ease, transform .6s ease'; observer.observe(el); });
+            }
+            setupSearch(){ const si=document.querySelector('.formulario-busqueda input'); if(si){ let t; si.addEventListener('input',e=>{ clearTimeout(t); t=setTimeout(()=>{ this.searchTerm=e.target.value.toLowerCase().trim(); this.filterArticles(); },300); }); } }
+            handleScroll(){ const banner=document.querySelector('.banner-pagina'); if(banner){ const scrolled=window.pageYOffset; banner.style.transform=`translateY(${scrolled * -0.5}px)`; } const scrollTop=window.pageYOffset||document.documentElement.scrollTop; const backToTop=document.querySelector('.back-to-top'); if(scrollTop>300){ if(!backToTop) this.createBackToTopButton(); } else if(backToTop){ backToTop.remove(); } }
+            createBackToTopButton(){ const btn=document.createElement('button'); btn.className='back-to-top'; btn.innerHTML='<i class="fas fa-chevron-up"></i>'; btn.style.cssText='position:fixed;bottom:2rem;right:2rem;width:50px;height:50px;border-radius:50%;background:var(--color-primario);color:#fff;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);transition:all .3s ease;z-index:1000;opacity:0;transform:translateY(20px)'; btn.addEventListener('click',()=> this.scrollToTop()); document.body.appendChild(btn); setTimeout(()=>{ btn.style.opacity='1'; btn.style.transform='translateY(0)'; },100); }
+            scrollToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
+            formatDate(date){ return new Intl.DateTimeFormat('es-ES',{year:'numeric',month:'long',day:'numeric'}).format(date); }
+            validateEmail(email){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+            showSuccess(m){ this.showNotification(m,'success'); }
+            showError(m){ this.showNotification(m,'error'); }
+            showNotification(message,type){ const n=document.createElement('div'); n.className=`notification ${type}`; n.textContent=message; n.style.cssText=`position:fixed;top:2rem;right:2rem;padding:1rem 1.2rem;border-radius:8px;color:#fff;font-weight:500;z-index:10000;transform:translateX(120%);transition:transform .3s ease;max-width:300px;${type==='success'?'background:#4caf50':'background:#f44336'}`; document.body.appendChild(n); setTimeout(()=>{ n.style.transform='translateX(0)'; },50); setTimeout(()=>{ n.style.transform='translateX(120%)'; setTimeout(()=> n.remove(),320); },4000); }
+        }
+        document.addEventListener('DOMContentLoaded',()=>{ new Blog(); });
+    </script>
+    <!-- Fin JavaScript del Blog -->
         <script src="./utils/chatbot.js"></script>
   </body>
 </html>

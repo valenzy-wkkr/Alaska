@@ -28,20 +28,30 @@ class MenuView {
     // Obtener elementos del DOM
     this.menuButton = document.querySelector('.boton-menu-movil');
     this.navigationMenu = document.querySelector('.lista-navegacion');
+    this.header = document.querySelector('header.cabecera-principal');
     
-    if (!this.menuButton || !this.navigationMenu) {
-      console.warn('No se encontraron los elementos necesarios para el menú');
+    if (!this.navigationMenu) {
+      console.warn('No se encontró lista de navegación');
+      return;
+    }
+    // Si no hay botón móvil, no se configura menú hamburguesa
+    if (!this.menuButton) {
+      // Asegurar que la lista esté visible en desktop/móvil según CSS base
+      this.navigationMenu.classList.remove('activo');
       return;
     }
     
     // Obtener items del menú
     this.menuItems = this.navigationMenu.querySelectorAll('a');
     
-    // Inicializar event listeners
+  // Normalizar icono inicial (flecha derecha)
+  this.setButtonIcon('open');
+
+  // Inicializar event listeners
     this.initEventListeners();
     
     // Configurar estado inicial
-    this.closeMenu();
+  this.closeMenu();
   }
 
   /**
@@ -65,6 +75,14 @@ class MenuView {
     
     // Evento para manejar el redimensionamiento de la ventana
     window.addEventListener('resize', this.handleResize);
+    window.addEventListener('scroll', () => {
+      if (!this.header) return;
+      if (window.scrollY > 8) {
+        this.header.classList.add('is-scrolled');
+      } else {
+        this.header.classList.remove('is-scrolled');
+      }
+    });
   }
   
   /**
@@ -101,7 +119,13 @@ class MenuView {
   closeMenu() {
     this.navigationMenu.classList.remove('activo');
     this.menuButton.setAttribute('aria-label', 'Abrir menú');
+    this.menuButton.setAttribute('aria-expanded','false');
+    this.setButtonIcon('open');
     this.isOpen = false;
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.documentElement.classList.remove('nav-open');
+    this.removeOverlay();
     
     // Enfocar el botón para accesibilidad
     this.menuButton.focus();
@@ -113,12 +137,52 @@ class MenuView {
   openMenu() {
     this.navigationMenu.classList.add('activo');
     this.menuButton.setAttribute('aria-label', 'Cerrar menú');
+    this.menuButton.setAttribute('aria-expanded','true');
+    this.setButtonIcon('close');
     this.isOpen = true;
+    document.documentElement.classList.add('nav-open');
+    this.createOverlay();
+    // Evitar scroll del body detrás del menú en móvil
+    if (window.innerWidth <= 768) {
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
     
     // Enfocar el primer elemento del menú para accesibilidad
     if (this.menuItems.length > 0) {
       this.menuItems[0].focus();
     }
+  }
+
+  /**
+   * Cambia el icono del botón según estado
+   * @param {('open'|'close')} state 
+   */
+  setButtonIcon(state){
+    if(!this.menuButton) return;
+    const desired = state === 'open' ? 'fa-bars-staggered' : 'fa-xmark';
+    const existing = this.menuButton.querySelector('i');
+    if(existing){
+      existing.className = `fas ${desired}`;
+    } else {
+      this.menuButton.innerHTML = `<i class="fas ${desired}"></i>`;
+    }
+    this.menuButton.classList.toggle('is-open', state === 'close');
+  }
+
+  /** Crea overlay oscuro detrás del menú */
+  createOverlay(){
+    if(document.querySelector('.menu-overlay')) return;
+    const ov=document.createElement('div');
+    ov.className='menu-overlay';
+    document.body.appendChild(ov);
+    requestAnimationFrame(()=> ov.classList.add('visible'));
+    ov.addEventListener('click', ()=> this.closeMenu());
+  }
+  /** Remueve overlay */
+  removeOverlay(){
+    const ov=document.querySelector('.menu-overlay');
+    if(ov){ ov.classList.remove('visible'); setTimeout(()=> ov.remove(), 280); }
   }
 
   /**
@@ -172,6 +236,8 @@ class MenuView {
     if (this.navigationMenu) {
       this.navigationMenu.classList.remove('activo');
     }
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
   }
 }
 

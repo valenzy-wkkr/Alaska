@@ -2,15 +2,15 @@
 
 /* Variables específicas del blog */
 :root {
-  --blog-bg: var(--fondo-claro);
-  --card-bg: #ffffff;
-  --card-shadow: var(--sombra-caja);
-  --card-shadow-hover: var(--sombra-caja-hover);
+  --blog-bg: var(--bg-body);
+  --card-bg: var(--surface-1);
+  --card-shadow: var(--shadow-md);
+  --card-shadow-hover: var(--shadow-lg);
   --border-radius: var(--radio-borde);
   --border-radius-small: var(--radio-borde);
   --transition: var(--transicion);
-  --gradient-primary: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-oscuro) 100%);
-  --gradient-secondary: linear-gradient(135deg, var(--color-secundario) 0%, #ff5722 100%);
+  --gradient-primary: var(--gradient-header);
+  --gradient-secondary: var(--gradient-accent);
 }
 
 /* Banner de página */
@@ -92,14 +92,17 @@
 }
 
 /* Artículo destacado */
+/* Artículo destacado (Futurista) */
 .articulo-destacado {
-  background: var(--card-bg);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: var(--card-shadow);
-  transition: var(--transition);
   position: relative;
-  border-top: 4px solid var(--color-primario);
+  background: linear-gradient(150deg, rgba(255,255,255,0.85), rgba(255,255,255,0.62) 55%, rgba(255,255,255,0.46));
+  backdrop-filter: blur(18px) saturate(170%);
+  -webkit-backdrop-filter: blur(18px) saturate(170%);
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 10px 28px -10px rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.18), 0 0 0 1px rgba(255,255,255,.35) inset;
+  transition: var(--transition);
+  border: 1px solid rgba(255,255,255,0.55);
 }
 
 .articulo-destacado::after {
@@ -201,14 +204,17 @@
 }
 
 /* Artículos regulares */
+/* Artículo regular (Futurista) */
 .articulo {
-  background: var(--card-bg);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: var(--card-shadow);
-  transition: var(--transition);
   position: relative;
-  border-top: 4px solid var(--color-primario);
+  background: linear-gradient(145deg, rgba(255,255,255,0.82), rgba(255,255,255,0.6) 58%, rgba(255,255,255,0.42));
+  backdrop-filter: blur(16px) saturate(165%);
+  -webkit-backdrop-filter: blur(16px) saturate(165%);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px -10px rgba(0,0,0,.33), 0 4px 10px rgba(0,0,0,.18), 0 0 0 1px rgba(255,255,255,.32) inset;
+  transition: var(--transition);
+  border: 1px solid rgba(255,255,255,0.5);
 }
 
 .articulo::after {
@@ -356,13 +362,16 @@
 }
 
 /* Widgets */
+/* Widget (Futurista) */
 .widget {
-  background: var(--card-bg);
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  box-shadow: var(--card-shadow);
-  border-top: 4px solid var(--color-primario);
   position: relative;
+  background: linear-gradient(150deg, rgba(255,255,255,0.85), rgba(255,255,255,0.62) 55%, rgba(255,255,255,0.46));
+  backdrop-filter: blur(16px) saturate(170%);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  border-radius: 26px;
+  padding: 1.75rem 1.6rem 1.65rem;
+  box-shadow: 0 8px 24px -10px rgba(0,0,0,.32), 0 4px 10px rgba(0,0,0,.18), 0 0 0 1px rgba(255,255,255,.34) inset;
+  border: 1px solid rgba(255,255,255,0.55);
   overflow: hidden;
 }
 
@@ -442,26 +451,43 @@
 /* Widget de categorías */
 .widget-categorias ul {
   list-style: none;
-  padding: 0;
-}
-
-.widget-categorias li {
-  margin-bottom: 0.75rem;
-}
-
-.widget-categorias a {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--color-texto);
-  text-decoration: none;
-  padding: 0.75rem 1rem;
-  border-radius: var(--border-radius-small);
-  transition: var(--transition);
-  background: var(--fondo-claro);
-}
-
-.widget-categorias a:hover {
+  /* Paginación futurista */
+  .pagina {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: linear-gradient(150deg, rgba(255,255,255,0.95), rgba(255,255,255,0.72) 55%, rgba(255,255,255,0.55));
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    color: var(--color-texto);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .9rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,.22), 0 0 0 1px rgba(255,255,255,.35) inset;
+    border: 1px solid rgba(255,255,255,0.5);
+    overflow: hidden;
+  }
+  .pagina::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,112,67,0.4), transparent 40%, transparent 60%, rgba(255,112,67,0.3));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .55s ease;
+    mix-blend-mode: overlay;
+  }
+  .pagina:hover::after, .pagina.activa::after { opacity: 1; }
+  .pagina:hover, .pagina.activa {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 28px -10px rgba(0,0,0,.35), 0 4px 10px rgba(0,0,0,.2);
+    color: var(--color-texto);
+  }
   background: var(--color-primario);
   color: var(--color-texto-blanco);
   transform: translateX(5px);
@@ -495,7 +521,8 @@
   padding: 1rem;
   border-radius: var(--border-radius-small);
   transition: var(--transition);
-  background: var(--fondo-claro);
+  background: var(--surface-2);
+  border: 1px solid var(--border-color);
 }
 
 .articulo-popular:hover {
@@ -549,14 +576,14 @@
 }
 
 .nube-etiquetas a {
-  background: var(--fondo-claro);
-  color: var(--color-texto);
+  background: var(--surface-2);
+  color: var(--text-primary);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   font-size: 0.85rem;
   transition: var(--transition);
-  border: 1px solid var(--color-borde);
+  border: 1px solid var(--border-color);
 }
 
 .nube-etiquetas a:hover {
@@ -718,14 +745,19 @@
     font-size: 2rem;
   }
   
-  .banner-pagina p {
-    font-size: 1rem;
+  /* Banner futurista */
+  .banner-pagina {
+    position: relative;
+    background: linear-gradient(115deg, rgba(32,49,34,0.85), rgba(28,45,30,0.78) 55%, rgba(255,112,67,0.25));
+    color: var(--color-texto-blanco);
+    padding: 4.5rem 0 4.2rem;
+    text-align: center;
+    overflow: hidden;
+    backdrop-filter: saturate(160%) blur(14px);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 6px 24px -12px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08);
   }
-  
-  .seccion-blog {
-    padding: 2rem 0;
-  }
-  
   .articulo-destacado .contenido-articulo {
     padding: 1.5rem;
   }
@@ -746,45 +778,31 @@
     font-size: 2rem;
   }
 }
-
 @media (max-width: 480px) {
-  .banner-pagina h1 {
-    font-size: 1.8rem;
-  }
-  
-  .articulo-destacado .imagen-articulo {
-    height: 200px;
-  }
-  
-  .articulo .imagen-articulo {
-    height: 150px;
-  }
-  
-  .widget {
-    padding: 1rem;
-  }
-  
-  .paginacion {
-    gap: 0.25rem;
-  }
-  
-  .pagina {
-    width: 40px;
-    height: 40px;
-    font-size: 0.9rem;
-  }
+  .banner-pagina h1 { font-size: 1.8rem; }
+  .articulo-destacado .imagen-articulo { height: 200px; }
+  .articulo .imagen-articulo { height: 150px; }
+  .widget { padding: 1rem; }
+  .pagina { width: 40px; height: 40px; font-size: .9rem; }
 }
+
+/* Tema Oscuro específico (aprovecha tokens globales) */
+html[data-theme='dark'] .seccion-blog { background: var(--bg-body); }
+html[data-theme='dark'] .articulo-destacado h2,
+html[data-theme='dark'] .articulo h3 { color: var(--text-primary); }
+html[data-theme='dark'] .articulo-destacado p,
+html[data-theme='dark'] .articulo p { color: var(--text-secondary); }
+html[data-theme='dark'] .meta-articulo, html[data-theme='dark'] .articulo .meta-articulo { color: var(--text-secondary); }
+html[data-theme='dark'] .widget-categorias a { background: var(--surface-2); }
+html[data-theme='dark'] .articulo-popular { background: var(--surface-2); }
+html[data-theme='dark'] .nube-etiquetas a { background: var(--surface-2); }
+html[data-theme='dark'] .pagina { background: var(--surface-1); }
+html[data-theme='dark'] .pagina:hover, html[data-theme='dark'] .pagina.activa { background: var(--color-primario); color: var(--text-invert); }
 
 /* Animaciones */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .articulo,

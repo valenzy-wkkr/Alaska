@@ -1,9 +1,16 @@
 <?php
 session_start();
+// Redirigir si ya está autenticado
 if (isset($_SESSION['usuario'])) {
-  header("Location: dashboard.php");
+  header('Location: dashboard.php');
   exit();
 }
+// Generar token CSRF (persistente por sesión)
+if (empty($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+// Prefill correo si cookie remember_email existe
+$correoRecordado = isset($_COOKIE['remember_email']) ? htmlspecialchars($_COOKIE['remember_email'], ENT_QUOTES, 'UTF-8') : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -39,9 +46,6 @@ if (isset($_SESSION['usuario'])) {
         </div>
       </div>
       <nav class="navegacion-principal">
-        <button class="boton-menu-movil" aria-label="Abrir menú">
-          <i class="fas fa-bars"></i>
-        </button>
         <ul class="lista-navegacion">
           <li><a href="index.html#inicio">Inicio</a></li>
           <li><a href="index.html#nosotros">Nosotros</a></li>
@@ -62,69 +66,56 @@ if (isset($_SESSION['usuario'])) {
       <?php if (isset($_GET['error'])): ?>
         <div class="error-message">
           <?php
-          if ($_GET['error'] == 'credenciales') {
-            echo 'Usuario o contraseña incorrectos';
-          } elseif ($_GET['error'] == 'vacio') {
-            echo 'Por favor complete todos los campos';
-          }
+            $map = [
+              'credenciales' => 'Credenciales inválidas',
+              'vacio' => 'Complete todos los campos',
+              'csrf' => 'Sesión expirada. Intente nuevamente',
+              'lock' => 'Demasiados intentos. Espere 5 minutos',
+              'timeout' => 'Sesión cerrada por inactividad'
+            ];
+            $code = $_GET['error'];
+            echo $map[$code] ?? 'Error en la solicitud';
           ?>
         </div>
       <?php endif; ?>
-      <form action="php/validar_login.php" method="POST">
+      <form action="php/validar_login.php" method="POST" novalidate>
         <div class="form-group">
           <label for="correo">Correo electrónico:</label>
-          <input type="email" id="correo" name="correo" required>
+          <input type="email" id="correo" name="correo" autocomplete="email" value="<?php echo $correoRecordado; ?>" required>
         </div>
         <div class="form-group">
           <label for="clave">Contraseña:</label>
-          <input type="password" id="clave" name="clave" required>
+          <div style="position:relative;">
+            <input type="password" id="clave" name="clave" autocomplete="current-password" required>
+            <button type="button" id="togglePass" aria-label="Mostrar u ocultar contraseña" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--color-texto-claro);cursor:pointer;font-size:.9rem;">👁️</button>
+          </div>
         </div>
+        <div class="form-group" style="display:flex;align-items:center;gap:.5rem;margin-top:-.5rem;">
+          <input type="checkbox" id="remember" name="remember" value="1" <?php echo $correoRecordado? 'checked':''; ?> style="width:auto;">
+          <label for="remember" style="margin:0;font-weight:400;cursor:pointer;">Recordar correo</label>
+        </div>
+        <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <button type="submit" class="btn-login">Iniciar Sesión</button>
       </form>
       <a href="#">¿Olvidaste tu contraseña?</a>
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="pie-pagina">
-    <div class="contenedor">
-      <div class="contenido-footer">
-        <div class="columna-footer info-contacto">
-          <h3>Contacto</h3>
-          <p><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Ciudad</p>
-          <p><i class="fas fa-phone"></i> +123 456 7890</p>
-          <p><i class="fas fa-envelope"></i> info@alaska-mascotas.com</p>
-        </div>
-        <div class="columna-footer enlaces-rapidos">
-          <h3>Enlaces Rápidos</h3>
-          <ul>
-            <li><a href="index.html#inicio">Inicio</a></li>
-            <li><a href="index.html#nosotros">Nosotros</a></li>
-            <li><a href="index.html#registro">Registro</a></li>
-            <li><a href="blog.html">Blog</a></li>
-          </ul>
-        </div>
-        <div class="columna-footer redes-sociales">
-          <h3>Síguenos</h3>
-          <div class="iconos-sociales">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="copyright">
-        <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
+  <!-- Footer removido según directiva (se mantiene sólo en index) -->
 
   <!-- Scripts -->
-  <script src="views/MenuView.js"></script>
-  <script src="views/ButtonView.js"></script>
-  <script src="views/FormView.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+  // Toggle mostrar/ocultar password
+  const toggle = document.getElementById('togglePass');
+  const pass = document.getElementById('clave');
+  if(toggle && pass){
+    toggle.addEventListener('click', ()=>{
+      const is = pass.getAttribute('type')==='password';
+      pass.setAttribute('type', is? 'text':'password');
+      toggle.textContent = is? '🙈':'👁️';
+    });
+  }
+  </script>
 </body>
 
 </html>

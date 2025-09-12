@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Citas Veterinarias - Alaska</title>
+  <script>/* Pre-aplicar tema */(function(){try{var s=localStorage.getItem('theme');if(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches){s='dark';}if(s){document.documentElement.setAttribute('data-theme',s);} }catch(e){}})();</script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="citas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -47,26 +48,20 @@
   }
 
   .inicial-circulo::before {
-  content: '';
-  position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 20%;
-  height: 20%;
-  background: rgba(255, 255, 255, 0.4);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  opacity: 0;
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 20%;
+    height: 20%;
+    background: rgba(255,255,255,.4);
+    border-radius: 50%;
+    transition: all .3s ease;
+    opacity: 0;
   }
+  .inicial-circulo:hover::before { width:70%; height:70%; opacity:1; background:rgba(255,255,255,.2); }
 
-  .inicial-circulo:hover::before {
-  width: 70%;
-  height: 70%;
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.2);
-  }
-</style>
-
+  </style>
   <body>
     <!-- Cabecera -->
     <header class="cabecera-principal">
@@ -79,10 +74,7 @@
                 <h1>ALASKA</h1>
             </div>
         </div>
-        <nav class="navegacion-principal">
-            <button class="boton-menu-movil" aria-label="Abrir menú">
-                <i class="fas fa-bars"></i>
-            </button>
+    <nav class="navegacion-principal">
             <ul class="lista-navegacion">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="index.html#nosotros">Nosotros</a></li>
@@ -95,7 +87,6 @@
         </nav>
       </div>
     </header>
-
     <!-- Sección de Citas -->
     <section class="seccion-citas">
       <div class="contenedor">
@@ -163,7 +154,7 @@
                 </div>
               </div>
               
-              <button type="submit" class="boton-primario">Reservar Cita</button>
+              <button type="submit" class="boton-primario boton-primario--citas">Reservar Cita</button>
             </form>
           </div>
           
@@ -248,42 +239,11 @@
     </section>
 
     <!-- Pie de página -->
-    <footer class="pie-pagina">
-        <div class="contenedor">
-            <div class="contenido-footer">
-                <div class="columna-footer info-contacto">
-                    <h3>Contacto</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Calle Principal 123, Ciudad</p>
-                    <p><i class="fas fa-phone"></i> +123 456 7890</p>
-                    <p><i class="fas fa-envelope"></i> info@alaska-mascotas.com</p>
-                </div>
-                <div class="columna-footer enlaces-rapidos">
-                    <h3>Enlaces Rápidos</h3>
-                    <ul>
-                        <li><a href="../index.html">Inicio</a></li>
-                        <li><a href="../index.html#nosotros">Nosotros</a></li>
-                        <li><a href="citas.html">Citas</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                    </ul>
-                </div>
-                <div class="columna-footer redes-sociales">
-                    <h3>Síguenos</h3>
-                    <div class="iconos-sociales">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2024 Alaska - Cuidado de Mascotas. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
+  <!-- Footer removido -->
 
     <!-- Scripts -->
-    <script src="../views/MenuView.js"></script>
+  <script src="utils/theme.js"></script>
+  <script src="../views/MenuView.js"></script>
     <script src="../views/ButtonView.js"></script>
     <script src="../views/FormView.js"></script>
     <script src="../views/AppointmentView.js"></script>
