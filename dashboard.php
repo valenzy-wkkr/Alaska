@@ -1,14 +1,77 @@
 <?php
-
 session_start();
+require_once 'php/conexion.php';
 
 if (!isset($_SESSION['usuario'])) {
     header('Location: index.html');
     exit();
 }
 
+// Obtener datos del usuario
+$usuario_id = $_SESSION['usuario']['id'] ?? 1;
+$nombre = $_SESSION['usuario']['nombre'] ?? 'Usuario';
 
+// Obtener estadísticas del dashboard
+$sql_stats = "SELECT 
+    (SELECT COUNT(*) FROM mascotas WHERE usuario_id = ?) as total_mascotas,
+    (SELECT COUNT(*) FROM recordatorios WHERE usuario_id = ? AND completado = 0) as total_recordatorios,
+    (SELECT COUNT(*) FROM recordatorios WHERE usuario_id = ? AND fecha_recordatorio >= NOW() AND completado = 0) as proximas_citas";
 
+$stmt = mysqli_prepare($conexion, $sql_stats);
+mysqli_stmt_bind_param($stmt, "iii", $usuario_id, $usuario_id, $usuario_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+$stats = mysqli_fetch_assoc($result);
+
+// Obtener recordatorios próximos
+$sql_recordatorios = "SELECT r.*, m.nombre as mascota_nombre 
+                FROM recordatorios r 
+                LEFT JOIN mascotas m ON r.mascota_id = m.id 
+                WHERE r.usuario_id = ? AND r.completado = 0 
+                ORDER BY r.fecha_recordatorio ASC 
+                LIMIT 5";
+
+$stmt_recordatorios = mysqli_prepare($conexion, $sql_recordatorios);
+mysqli_stmt_bind_param($stmt_recordatorios, "i", $usuario_id);
+mysqli_stmt_execute($stmt_recordatorios);
+$result_recordatorios = mysqli_stmt_get_result($stmt_recordatorios);
+$recordatorios = [];
+while ($row = mysqli_fetch_assoc($result_recordatorios)) {
+    $recordatorios[] = $row;
+}
+
+// Obtener mascotas del usuario
+$sql_mascotas = "SELECT * FROM mascotas WHERE usuario_id = ? ORDER BY fecha_creacion DESC";
+$stmt_mascotas = mysqli_prepare($conexion, $sql_mascotas);
+mysqli_stmt_bind_param($stmt_mascotas, "i", $usuario_id);
+mysqli_stmt_execute($stmt_mascotas);
+$result_mascotas = mysqli_stmt_get_result($stmt_mascotas);
+$mascotas = [];
+while ($row = mysqli_fetch_assoc($result_mascotas)) {
+    $mascotas[] = $row;
+}
+
+// Obtener últimos artículos del blog
+$sql_blog = "SELECT * FROM blog_articulos ORDER BY fecha_publicacion DESC LIMIT 3";
+$result_blog = mysqli_query($conexion, $sql_blog);
+$articulos = [];
+while ($row = mysqli_fetch_assoc($result_blog)) {
+    $articulos[] = $row;
+}
+
+// Obtener actividad reciente
+$sql_actividad = "SELECT 'recordatorio' as tipo, titulo as descripcion, fecha_recordatorio as fecha FROM recordatorios WHERE usuario_id = ? 
+                UNION 
+                SELECT 'mascota' as tipo, CONCAT('Mascota ', nombre, ' registrada') as descripcion, fecha_creacion as fecha FROM mascotas WHERE usuario_id = ? 
+                ORDER BY fecha DESC LIMIT 5";
+$stmt_actividad = mysqli_prepare($conexion, $sql_actividad);
+mysqli_stmt_bind_param($stmt_actividad, "ii", $usuario_id, $usuario_id);
+mysqli_stmt_execute($stmt_actividad);
+$result_actividad = mysqli_stmt_get_result($stmt_actividad);
+$actividades = [];
+while ($row = mysqli_fetch_assoc($result_actividad)) {
+    $actividades[] = $row;
+}
 
 
 
@@ -77,21 +140,21 @@ if (!isset($_SESSION['usuario'])) {
                     <div class="stat-card">
                         <i class="fas fa-paw"></i>
                         <div class="stat-info">
-                            <span class="stat-number" id="totalPets">0</span>
+                            <span class="stat-number" id="totalPets"><?php echo $stats['total_mascotas'] ?? 0; ?></span>
                             <span class="stat-label">Mascotas</span>
                         </div>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-calendar-check"></i>
                         <div class="stat-info">
-                            <span class="stat-number" id="upcomingAppointments">0</span>
+                            <span class="stat-number" id="upcomingAppointments"><?php echo $stats['proximas_citas'] ?? 0; ?></span>
                             <span class="stat-label">Próximas Citas</span>
                         </div>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-bell"></i>
                         <div class="stat-info">
-                            <span class="stat-number" id="totalReminders">0</span>
+                            <span class="stat-number" id="totalReminders"><?php echo $stats['total_recordatorios'] ?? 0; ?></span>
                             <span class="stat-label">Recordatorios</span>
                         </div>
                     </div>
@@ -111,7 +174,58 @@ if (!isset($_SESSION['usuario'])) {
                             </button>
                         </div>
                         <div class="reminders-container" id="remindersContainer">
-                            <!-- Los recordatorios se cargarán dinámicamente -->
+                            <?php if (empty($recordatorios)): ?>
+                                <div class="empty-state">
+                                    <p>No tienes recordatorios próximos</p>
+                                </div>
+                            <?php else: ?>
+                                <?php foreach ($recordatorios as $recordatorio): ?>
+                                    <div class="reminder-card" data-id="<?php echo $recordatorio['id']; ?>">
+                                        <div class="reminder-icon">
+                                            <?php if ($recordatorio['tipo'] == 'vacuna'): ?>
+                                                <i class="fas fa-syringe"></i>
+                                            <?php elseif ($recordatorio['tipo'] == 'cita'): ?>
+                                                <i class="fas fa-stethoscope"></i>
+                                            <?php elseif ($recordatorio['tipo'] == 'medicamento'): ?>
+                                                <i class="fas fa-pills"></i>
+                                            <?php elseif ($recordatorio['tipo'] == 'alimentacion'): ?>
+                                                <i class="fas fa-utensils"></i>
+                                            <?php elseif ($recordatorio['tipo'] == 'paseo'): ?>
+                                                <i class="fas fa-walking"></i>
+                                            <?php else: ?>
+                                                <i class="fas fa-bell"></i>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="reminder-info">
+                                            <h4><?php echo htmlspecialchars($recordatorio['titulo']); ?></h4>
+                                            <p class="reminder-date">
+                                                <i class="far fa-calendar"></i> 
+                                                <?php echo date('d/m/Y H:i', strtotime($recordatorio['fecha_recordatorio'])); ?>
+                                            </p>
+                                            <?php if (!empty($recordatorio['mascota_nombre'])): ?>
+                                                <p class="reminder-pet">
+                                                    <i class="fas fa-paw"></i> 
+                                                    <?php echo htmlspecialchars($recordatorio['mascota_nombre']); ?>
+                                                </p>
+                                            <?php endif; ?>
+                                            <?php if (!empty($recordatorio['notas'])): ?>
+                                                <p class="reminder-notes"><?php echo htmlspecialchars($recordatorio['notas']); ?></p>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="reminder-actions">
+                                            <button class="btn-complete" data-id="<?php echo $recordatorio['id']; ?>">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button class="btn-edit" data-id="<?php echo $recordatorio['id']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-delete" data-id="<?php echo $recordatorio['id']; ?>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </section>
 
@@ -124,7 +238,66 @@ if (!isset($_SESSION['usuario'])) {
                             </button>
                         </div>
                         <div class="pets-health-container" id="petsHealthContainer">
-                            <!-- El estado de salud se cargará dinámicamente -->
+                            <?php if (empty($mascotas)): ?>
+                                <div class="empty-state">
+                                    <p>No tienes mascotas registradas</p>
+                                </div>
+                            <?php else: ?>
+                                <?php foreach ($mascotas as $mascota): ?>
+                                    <div class="pet-card" data-id="<?php echo $mascota['id']; ?>">
+                                        <div class="pet-icon">
+                                            <?php if ($mascota['especie'] == 'perro'): ?>
+                                                <i class="fas fa-dog"></i>
+                                            <?php elseif ($mascota['especie'] == 'gato'): ?>
+                                                <i class="fas fa-cat"></i>
+                                            <?php elseif ($mascota['especie'] == 'ave'): ?>
+                                                <i class="fas fa-dove"></i>
+                                            <?php elseif ($mascota['especie'] == 'roedor'): ?>
+                                                <i class="fas fa-rabbit"></i>
+                                            <?php else: ?>
+                                                <i class="fas fa-paw"></i>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="pet-info">
+                                            <h4><?php echo htmlspecialchars($mascota['nombre']); ?></h4>
+                                            <p class="pet-breed">
+                                                <?php echo htmlspecialchars($mascota['raza']); ?>
+                                            </p>
+                                            <div class="pet-details">
+                                                <span class="pet-age">
+                                                    <i class="fas fa-birthday-cake"></i> 
+                                                    <?php echo $mascota['edad']; ?> años
+                                                </span>
+                                                <span class="pet-weight">
+                                                    <i class="fas fa-weight"></i> 
+                                                    <?php echo $mascota['peso']; ?> kg
+                                                </span>
+                                            </div>
+                                            <div class="pet-health-status <?php echo $mascota['estado_salud']; ?>">
+                                                <i class="fas fa-heartbeat"></i> 
+                                                <?php 
+                                                    $estado = 'Saludable';
+                                                    if ($mascota['estado_salud'] == 'warning') $estado = 'Atención';
+                                                    if ($mascota['estado_salud'] == 'danger') $estado = 'Cuidado';
+                                                    echo $estado;
+                                                ?>
+                                            </div>
+                                            <p class="pet-last-checkup">
+                                                <i class="far fa-calendar-check"></i> 
+                                                Última revisión: <?php echo date('d/m/Y', strtotime($mascota['ultima_revision'])); ?>
+                                            </p>
+                                        </div>
+                                        <div class="pet-actions">
+                                            <button class="btn-edit" data-id="<?php echo $mascota['id']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-delete" data-id="<?php echo $mascota['id']; ?>">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </section>
                 </div>
@@ -138,7 +311,30 @@ if (!isset($_SESSION['usuario'])) {
                             <a href="blog.html" class="btn-view-all">Ver Todos</a>
                         </div>
                         <div class="blog-articles-container" id="blogArticlesContainer">
-                            <!-- Los artículos se cargarán dinámicamente -->
+                            <?php if (empty($articulos)): ?>
+                                <div class="empty-state">
+                                    <p>No hay artículos disponibles</p>
+                                </div>
+                            <?php else: ?>
+                                <?php foreach ($articulos as $articulo): ?>
+                                    <div class="article-card">
+                                        <?php if (!empty($articulo['imagen'])): ?>
+                                            <div class="article-image">
+                                                <img src="<?php echo htmlspecialchars($articulo['imagen']); ?>" alt="<?php echo htmlspecialchars($articulo['titulo']); ?>">
+                                            </div>
+                                        <?php endif; ?>
+                                        <div class="article-content">
+                                            <h4><?php echo htmlspecialchars($articulo['titulo']); ?></h4>
+                                            <p class="article-date">
+                                                <i class="far fa-calendar-alt"></i> 
+                                                <?php echo date('d/m/Y', strtotime($articulo['fecha_publicacion'])); ?>
+                                            </p>
+                                            <p class="article-excerpt"><?php echo htmlspecialchars(substr($articulo['contenido'], 0, 100)) . '...'; ?></p>
+                                            <a href="blog.html?id=<?php echo $articulo['id']; ?>" class="btn-read-more">Leer más</a>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </section>
 
@@ -148,7 +344,31 @@ if (!isset($_SESSION['usuario'])) {
                             <h2><i class="fas fa-clock"></i> Actividad Reciente</h2>
                         </div>
                         <div class="recent-activity-container" id="recentActivityContainer">
-                            <!-- La actividad reciente se cargará dinámicamente -->
+                            <?php if (empty($actividades)): ?>
+                                <div class="empty-state">
+                                    <p>No hay actividad reciente</p>
+                                </div>
+                            <?php else: ?>
+                                <?php foreach ($actividades as $actividad): ?>
+                                    <div class="activity-item">
+                                        <div class="activity-icon">
+                                            <?php if ($actividad['tipo'] == 'recordatorio'): ?>
+                                                <i class="fas fa-bell"></i>
+                                            <?php elseif ($actividad['tipo'] == 'mascota'): ?>
+                                                <i class="fas fa-paw"></i>
+                                            <?php else: ?>
+                                                <i class="fas fa-history"></i>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="activity-content">
+                                            <p><?php echo htmlspecialchars($actividad['descripcion']); ?></p>
+                                            <span class="activity-date">
+                                                <?php echo date('d/m/Y H:i', strtotime($actividad['fecha'])); ?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
                     </section>
                 </div>
@@ -189,9 +409,7 @@ if (!isset($_SESSION['usuario'])) {
                 </div>
                 <div class="form-group">
                     <label for="reminderPet">Mascota</label>
-                    <select id="reminderPet" name="petId" required>
-                        <option value="">Seleccionar mascota</option>
-                    </select>
+                    <input type="text" id="reminderPet" name="petName" placeholder="Ingresa el nombre de la mascota" required>
                 </div>
                 <div class="form-group">
                     <label for="reminderNotes">Notas</label>

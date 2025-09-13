@@ -20,6 +20,7 @@ class Dashboard {
      * Inicializa el dashboard
      */
     init() {
+        console.log('Inicializando dashboard...');
         this.loadUserData();
         this.setupEventListeners();
         this.loadDashboardData();
@@ -103,90 +104,85 @@ class Dashboard {
      * Carga las mascotas del usuario
      */
     async loadPets() {
-        try {
-            // Cargar desde archivo JSON
-            const response = await fetch('data/pets-data.json');
-            if (response.ok) {
-                this.pets = await response.json();
-            } else {
-                // Fallback a datos de ejemplo si no se puede cargar el archivo
-                this.pets = [
+        console.log('Cargando mascotas...');
+        // Por ahora, siempre usar datos de ejemplo para debug
+        this.pets = [
                     {
                         id: 1,
                         name: 'Luna',
                         species: 'perro',
                         breed: 'Golden Retriever',
-                        age: 3,
-                        weight: 25,
+                        age: 3.5,
+                        weight: 25.5,
                         healthStatus: 'healthy',
-                        lastCheckup: '2024-01-15'
+                        lastCheckup: '2024-02-15'
                     },
                     {
                         id: 2,
                         name: 'Mittens',
                         species: 'gato',
-                        breed: 'Siamés',
-                        age: 2,
-                        weight: 4.5,
+                        breed: 'Persa',
+                        age: 2.0,
+                        weight: 4.2,
+                        healthStatus: 'healthy',
+                        lastCheckup: '2024-01-20'
+                    },
+                    {
+                        id: 3,
+                        name: 'Max',
+                        species: 'perro',
+                        breed: 'Labrador',
+                        age: 5.0,
+                        weight: 30.0,
                         healthStatus: 'attention',
-                        lastCheckup: '2024-02-01'
+                        lastCheckup: '2024-03-01'
                     }
                 ];
-            }
-        } catch (error) {
-            console.error('Error cargando mascotas:', error);
-            this.pets = [];
-        }
+        console.log('Mascotas cargadas:', this.pets);
     }
 
     /**
      * Carga los recordatorios del usuario
      */
     async loadReminders() {
-        try {
-            // Cargar desde archivo JSON
-            const response = await fetch('data/reminders-data.json');
-            if (response.ok) {
-                this.reminders = await response.json();
-            } else {
-                // Fallback a datos de ejemplo si no se puede cargar el archivo
-                this.reminders = [
-                    {
-                        id: 1,
-                        title: 'Vacuna anual de Luna',
-                        date: '2024-03-15T10:00:00',
-                        type: 'vacuna',
-                        petId: 1,
-                        petName: 'Luna',
-                        notes: 'Vacuna contra la rabia y triple felina',
-                        urgent: false
-                    },
-                    {
-                        id: 2,
-                        title: 'Cita veterinaria de Mittens',
-                        date: '2024-03-10T14:30:00',
-                        type: 'cita',
-                        petId: 2,
-                        petName: 'Mittens',
-                        notes: 'Revisión de rutina',
-                        urgent: true
-                    },
-                    {
-                        id: 3,
-                        title: 'Medicamento para Luna',
-                        date: '2024-03-08T08:00:00',
-                        type: 'medicamento',
-                        petId: 1,
-                        petName: 'Luna',
-                        notes: 'Antiparasitario mensual',
-                        urgent: false
-                    }
-                ];
+        console.log('Cargando recordatorios...');
+        // Datos de ejemplo para debug
+        this.reminders = [
+            {
+                id: 1,
+                title: 'Vacuna anual de Luna',
+                date: '2024-03-15T10:00:00',
+                type: 'vacuna',
+                petId: 1,
+                petName: 'Luna',
+                notes: 'Recordatorio para vacuna anual',
+                urgent: false,
+                completed: false
+            },
+            {
+                id: 2,
+                title: 'Revisión dental de Mittens',
+                date: '2024-03-20T14:30:00',
+                type: 'cita',
+                petId: 2,
+                petName: 'Mittens',
+                notes: 'Revisión dental y limpieza',
+                urgent: false,
+                completed: false
+            },
+            {
+                id: 3,
+                title: 'Medicamento para Max',
+                date: '2024-03-10T08:00:00',
+                type: 'medicamento',
+                petId: 3,
+                petName: 'Max',
+                notes: 'Administrar medicamento para la artritis',
+                urgent: true,
+                completed: false
             }
-        } catch (error) {
-            console.error('Error cargando recordatorios:', error);
-            this.reminders = [];
-        }
+        ];
+        console.log('Recordatorios cargados:', this.reminders);
     }
 
     /**
@@ -319,6 +315,7 @@ class Dashboard {
      * Renderiza los recordatorios
      */
     renderReminders() {
+        console.log('Renderizando recordatorios:', this.reminders);
         const container = document.getElementById('remindersContainer');
         if (!container) return;
 
@@ -558,12 +555,11 @@ class Dashboard {
     /**
      * Maneja el envío del formulario de recordatorio
      */
-    handleReminderSubmit(e) {
+    async handleReminderSubmit(e) {
         e.preventDefault();
         
         const formData = new FormData(e.target);
         const reminder = {
-            id: Date.now(),
             title: formData.get('title'),
             date: formData.get('date'),
             type: formData.get('type'),
@@ -573,22 +569,40 @@ class Dashboard {
             urgent: false
         };
 
-        this.reminders.push(reminder);
-        this.renderReminders();
-        this.updateStats();
-        this.closeReminderModal();
-        this.showSuccess('Recordatorio agregado exitosamente');
+        try {
+            const response = await fetch('php/recordatorios.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reminder)
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                this.reminders.push(result.recordatorio);
+                this.renderReminders();
+                this.updateStats();
+                this.closeReminderModal();
+                this.showSuccess('Recordatorio agregado exitosamente');
+            } else {
+                this.showError('Error al agregar el recordatorio');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            this.showError('Error al agregar el recordatorio');
+        }
     }
 
     /**
      * Maneja el envío del formulario de mascota
      */
-    handlePetSubmit(e) {
+    async handlePetSubmit(e) {
         e.preventDefault();
         
         const formData = new FormData(e.target);
         const pet = {
-            id: Date.now(),
             name: formData.get('name'),
             species: formData.get('species'),
             breed: formData.get('breed'),
@@ -598,11 +612,30 @@ class Dashboard {
             lastCheckup: new Date().toISOString().split('T')[0]
         };
 
-        this.pets.push(pet);
-        this.renderPetsHealth();
-        this.updateStats();
-        this.closePetModal();
-        this.showSuccess('Mascota agregada exitosamente');
+        try {
+            const response = await fetch('php/mascotas.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(pet)
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                this.pets.push(result.mascota);
+                this.renderPetsHealth();
+                this.updateStats();
+                this.closePetModal();
+                this.showSuccess('Mascota agregada exitosamente');
+            } else {
+                this.showError('Error al agregar la mascota');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            this.showError('Error al agregar la mascota');
+        }
     }
 
     /**

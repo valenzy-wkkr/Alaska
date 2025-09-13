@@ -134,6 +134,9 @@ class CitasManager {
         const estadoClass = this.obtenerClaseEstado(cita.estado);
         const estadoTexto = this.obtenerTextoEstado(cita.estado);
 
+        // Mostrar nombre de la mascota si existe, si no, mostrar tipo de mascota
+        const nombreMascota = cita.nombre_mascota ? `${cita.nombre_mascota} (${cita.tipo_mascota})` : cita.tipo_mascota;
+
         return `
             <div class="tarjeta-visita" data-id="${cita.id}">
                 <div class="cabecera-tarjeta">
@@ -143,7 +146,7 @@ class CitasManager {
                     </div>
                     <div class="mascota">
                         <i class="fas fa-paw"></i>
-                        <span class="nombre-mascota">${cita.tipo_mascota}</span>
+                        <span class="nombre-mascota">${nombreMascota}</span>
                     </div>
                     <span class="estado ${estadoClass}">${estadoTexto}</span>
                 </div>

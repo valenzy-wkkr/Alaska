@@ -113,7 +113,7 @@
             
             <form id="formulario-citas" class="formulario-citas" method="POST">
               <div class="grupo-formulario">
-                <label for="mascota">Mascota</label>
+                <label for="mascota">Tipo de Mascota</label>
                 <div class="entrada-con-icono">
                   <i class="fas fa-paw"></i>
                   <select id="mascota" name="petId" required>
@@ -128,6 +128,14 @@
                     <option value="reptil">Reptil (Iguana, Serpiente, etc.)</option>
                     <option value="otro">Otra mascota</option>
                   </select>
+                </div>
+              </div>
+              
+              <div class="grupo-formulario">
+                <label for="nombre-mascota">Nombre de la Mascota</label>
+                <div class="entrada-con-icono">
+                  <i class="fas fa-tag"></i>
+                  <input type="text" id="nombre-mascota" name="petName" placeholder="Ingresa el nombre de tu mascota" required>
                 </div>
               </div>
               

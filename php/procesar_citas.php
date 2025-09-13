@@ -30,6 +30,10 @@ function validarDatosCita($datos) {
         $errores[] = 'El tipo de mascota es requerido';
     }
     
+    if (empty($datos['petName'])) {
+        $errores[] = 'El nombre de la mascota es requerido';
+    }
+    
     if (empty($datos['appointmentDate'])) {
         $errores[] = 'La fecha y hora de la cita es requerida';
     } else {
@@ -75,8 +79,8 @@ try {
             $datos = escaparDatos($conexion, $datos);
             
             // Insertar cita
-            $sql = "INSERT INTO citas (tipo_mascota, fecha_cita, motivo, notas, estado, fecha_creacion) 
-                    VALUES ('{$datos['petId']}', '{$datos['appointmentDate']}', '{$datos['reason']}', 
+            $sql = "INSERT INTO citas (tipo_mascota, nombre_mascota, fecha_cita, motivo, notas, estado, fecha_creacion) 
+                    VALUES ('{$datos['petId']}', '{$datos['petName']}', '{$datos['appointmentDate']}', '{$datos['reason']}', 
                             '{$datos['notes']}', 'programada', NOW())";
             
             if (mysqli_query($conexion, $sql)) {
@@ -110,6 +114,7 @@ try {
                 $citas[] = [
                     'id' => $fila['id'],
                     'tipo_mascota' => $fila['tipo_mascota'],
+                    'nombre_mascota' => $fila['nombre_mascota'] ?? '',
                     'fecha_cita' => $fila['fecha_cita'],
                     'motivo' => $fila['motivo'],
                     'notas' => $fila['notas'],
