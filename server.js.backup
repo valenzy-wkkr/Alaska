@@ -9,11 +9,6 @@ const https = require('https');
 const { URL } = require('url');
 const port = process.env.PORT || 3000;
 
-// Import new utilities
-const { sanitizeHTML, sanitizeText, sanitizeExcerpt } = require('./utils/htmlSanitizer');
-const cache = require('./utils/cache');
-const { generateRSSFeed, parseTagsFromQuery } = require('./utils/rssGenerator');
-
 let appOrServer = null;
 let usingExpress = false;
 
@@ -230,207 +225,33 @@ try {
   }
 
   app.get('/api/blog', async (req, res) => {
-    // Parse tags from query parameters (supports tag[]=a&tag[]=b format)
-    const requestedTags = parseTagsFromQuery(req.query);
-    const cacheKey = `blog_posts_${requestedTags.join('_')}`;
-    
-    // Check cache first
-    const cachedItems = await cache.get(cacheKey);
-    if (cachedItems) {
-      return res.json({ items: cachedItems, fromCache: true });
-    }
-
     // Intentar cargar desde un feed externo si está configurado; si no, usar posts locales.
     const localPosts = [
-      { id: 1, title: 'Consejos para la primera visita al veterinario', category: 'Salud', tags: ['salud', 'veterinario', 'consejos'], date: '2025-08-01', image: '/img/blog1.avif', excerpt: 'Guía rápida para tu primera cita veterinaria.' },
-      { id: 2, title: 'Cómo elegir el mejor pienso', category: 'Alimentación', tags: ['alimentación', 'pienso', 'nutrición'], date: '2025-07-22', image: '/img/blog2.avif', excerpt: 'Claves para seleccionar un alimento de calidad.' },
-      { id: 3, title: 'Rutinas de paseo según la edad', category: 'Paseos', tags: ['paseos', 'ejercicio', 'edad'], date: '2025-07-01', image: '/img/blog3.avif', excerpt: 'Adapta la actividad a cada etapa.' }
+      { id: 1, title: 'Consejos para la primera visita al veterinario', category: 'Salud', date: '2025-08-01', image: '/img/blog1.avif', excerpt: 'Guía rápida para tu primera cita veterinaria.' },
+      { id: 2, title: 'Cómo elegir el mejor pienso', category: 'Alimentación', date: '2025-07-22', image: '/img/blog2.avif', excerpt: 'Claves para seleccionar un alimento de calidad.' },
+      { id: 3, title: 'Rutinas de paseo según la edad', category: 'Paseos', date: '2025-07-01', image: '/img/blog3.avif', excerpt: 'Adapta la actividad a cada etapa.' }
     ];
-    
     try{
       const external = await fetchExternalBlog();
-      let allPosts = external && Array.isArray(external) && external.length > 0 ? external : localPosts;
-      
-      // Filter by tags if specified
-      if (requestedTags.length > 0) {
-        allPosts = allPosts.filter(post => {
-          const postTags = [
-            post.category?.toLowerCase(),
-            ...(post.tags || []).map(t => t.toLowerCase())
-          ].filter(Boolean);
-          
-          return requestedTags.some(reqTag => 
-            postTags.includes(reqTag.toLowerCase())
-          );
-        });
-      }
-      
-      const items = allPosts.map(p=>({
-        id: p.id,
-        title: sanitizeText(p.title),
-        category: sanitizeText(p.category),
-        tags: (p.tags || []).map(t => sanitizeText(t)),
-        date: p.date,
-        image: typeof p.image === 'string' && p.image.startsWith('http') ? p.image : (p.image || '/img/blog1.avif'),
-        excerpt: sanitizeExcerpt(p.excerpt),
-        content: p.content ? sanitizeHTML(p.content) : undefined
-      }));
-      
-      // Cache the results for 15 minutes
-      await cache.set(cacheKey, items, 900);
-      
-      res.json({ items, tags: requestedTags });
+      const items = (external && Array.isArray(external) && external.length>0 ? external : localPosts)
+        .map(p=>({
+          id: p.id,
+          title: escapeHTML(p.title),
+          category: escapeHTML(p.category),
+          date: p.date,
+          image: typeof p.image === 'string' && p.image.startsWith('http') ? p.image : (p.image || '/img/blog1.avif'),
+          excerpt: escapeHTML(p.excerpt)
+        }));
+      res.json({ items });
     }catch(_){
-      const items = localPosts.map(p=>({
+      res.json({ items: localPosts.map(p=>({
         id: p.id,
-        title: sanitizeText(p.title),
-        category: sanitizeText(p.category),
-        tags: (p.tags || []).map(t => sanitizeText(t)),
+        title: escapeHTML(p.title),
+        category: escapeHTML(p.category),
         date: p.date,
         image: p.image,
-        excerpt: sanitizeExcerpt(p.excerpt)
-      }));
-      res.json({ items, tags: requestedTags });
-    }
-  });
-
-  // RSS Feed endpoint
-  app.get('/api/rss', async (req, res) => {
-    try {
-      // Parse tags from query parameters
-      const requestedTags = parseTagsFromQuery(req.query);
-      const cacheKey = `rss_feed_${requestedTags.join('_')}`;
-      
-      // Check cache first
-      const cachedRSS = await cache.get(cacheKey);
-      if (cachedRSS) {
-        res.set({
-          'Content-Type': 'application/rss+xml; charset=utf-8',
-          'Cache-Control': 'public, max-age=900' // 15 minutes
-        });
-        return res.send(cachedRSS);
-      }
-
-      // Get blog posts (reuse existing logic)
-      const localPosts = [
-        { id: 1, title: 'Consejos para la primera visita al veterinario', category: 'Salud', tags: ['salud', 'veterinario', 'consejos'], date: '2025-08-01', image: '/img/blog1.avif', excerpt: 'Guía rápida para tu primera cita veterinaria.' },
-        { id: 2, title: 'Cómo elegir el mejor pienso', category: 'Alimentación', tags: ['alimentación', 'pienso', 'nutrición'], date: '2025-07-22', image: '/img/blog2.avif', excerpt: 'Claves para seleccionar un alimento de calidad.' },
-        { id: 3, title: 'Rutinas de paseo según la edad', category: 'Paseos', tags: ['paseos', 'ejercicio', 'edad'], date: '2025-07-01', image: '/img/blog3.avif', excerpt: 'Adapta la actividad a cada etapa.' }
-      ];
-
-      const external = await fetchExternalBlog();
-      let allPosts = external && Array.isArray(external) && external.length > 0 ? external : localPosts;
-      
-      // Filter by tags if specified
-      if (requestedTags.length > 0) {
-        allPosts = allPosts.filter(post => {
-          const postTags = [
-            post.category?.toLowerCase(),
-            ...(post.tags || []).map(t => t.toLowerCase())
-          ].filter(Boolean);
-          
-          return requestedTags.some(reqTag => 
-            postTags.includes(reqTag.toLowerCase())
-          );
-        });
-      }
-
-      // Generate RSS feed
-      const baseUrl = `${req.protocol}://${req.get('host')}`;
-      const rssOptions = {
-        title: 'Alaska - Blog de Cuidado de Mascotas',
-        description: 'Consejos y guías para el cuidado responsable de tus mascotas',
-        link: baseUrl,
-        language: 'es-ES'
-      };
-
-      if (requestedTags.length > 0) {
-        rssOptions.title += ` - ${requestedTags.join(', ')}`;
-        rssOptions.description += ` | Filtrado por: ${requestedTags.join(', ')}`;
-      }
-
-      const rssXML = generateRSSFeed(allPosts, rssOptions);
-      
-      // Cache the RSS for 15 minutes
-      await cache.set(cacheKey, rssXML, 900);
-      
-      res.set({
-        'Content-Type': 'application/rss+xml; charset=utf-8',
-        'Cache-Control': 'public, max-age=900'
-      });
-      res.send(rssXML);
-      
-    } catch (error) {
-      console.error('RSS generation error:', error);
-      res.status(500).json({ error: 'Error generating RSS feed' });
-    }
-  });
-
-  // Blog post creation/update endpoint with HTML sanitization
-  app.post('/api/blog', async (req, res) => {
-    try {
-      const { title, content, excerpt, category, tags = [], author = 'Alaska Team' } = req.body;
-      
-      if (!title || !content) {
-        return res.status(400).json({ error: 'Title and content are required' });
-      }
-
-      // Sanitize all content
-      const sanitizedPost = {
-        id: req.body.id || Date.now(), // Use provided ID or generate new one
-        title: sanitizeText(title),
-        content: sanitizeHTML(content), // Main content gets full HTML sanitization
-        excerpt: sanitizeExcerpt(excerpt || content.substring(0, 200)), // Excerpt gets minimal HTML
-        category: sanitizeText(category || 'General'),
-        tags: Array.isArray(tags) ? tags.map(t => sanitizeText(t)).filter(t => t) : [],
-        author: sanitizeText(author),
-        date: req.body.date || new Date().toISOString().split('T')[0],
-        image: req.body.image || '/img/blog1.avif'
-      };
-
-      // Clear related cache entries
-      await cache.remove('blog_posts_');
-      await cache.remove('rss_feed_');
-      
-      // In a real app, you would save to database here
-      // For now, just return the sanitized post
-      res.json({ 
-        success: true, 
-        post: sanitizedPost,
-        message: 'Post saved successfully with HTML sanitization' 
-      });
-      
-    } catch (error) {
-      console.error('Blog post save error:', error);
-      res.status(500).json({ error: 'Error saving blog post' });
-    }
-  });
-
-  // Cache management endpoint
-  app.get('/api/cache/stats', async (req, res) => {
-    try {
-      const stats = await cache.stats();
-      res.json(stats);
-    } catch (error) {
-      res.status(500).json({ error: 'Error getting cache stats' });
-    }
-  });
-
-  app.delete('/api/cache', async (req, res) => {
-    try {
-      const cleared = await cache.clear();
-      res.json({ success: cleared, message: 'Cache cleared' });
-    } catch (error) {
-      res.status(500).json({ error: 'Error clearing cache' });
-    }
-  });
-
-  app.post('/api/cache/cleanup', async (req, res) => {
-    try {
-      const removed = await cache.cleanup();
-      res.json({ success: true, removed, message: `Removed ${removed} expired entries` });
-    } catch (error) {
-      res.status(500).json({ error: 'Error cleaning up cache' });
+        excerpt: escapeHTML(p.excerpt)
+      })) });
     }
   });
 
